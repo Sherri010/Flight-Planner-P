@@ -16,17 +16,19 @@ class RoutesController < ApplicationController
   end
 
   def create
-    route= Route.create(route_params)
-    if route
-      render :json, route,status: 200
-    else
-      render :json, {error:"fails creating new node"}, status: 200
-    end
+    #  @cust.houses.create(params[:house])
+   p params
+   user = User.find(params[:user_id])
+   final = user.routes.create(:name => params[:name],:distance =>params[:distance])
+   if final
+     render :json =>{success:"OK"}, status: 200
+   else
+     render :json => {error:"FAILED"}, status: 400
   end
-
+end
 private
   def route_params
-    params.require(:route).permite(:name,:distance,:user_id)
+    params.require(:route).permit(:name,:distance,:user_id)
   end
 
 end
