@@ -1,6 +1,5 @@
- # User API
- 
- ## GET /routes
+# User API
+## GET /routes
  
 **Response:** 
  - Status code: 200
@@ -34,7 +33,7 @@ sample Response:
 
  ```json
    {
-      route:{
+      "route":{
       "id":10,
       "name":"SF-LA",
       "distance":1000.0,
@@ -42,7 +41,7 @@ sample Response:
       "created_at":"2016-11-20T02:34:48.697Z",
       "updated_at":"2016-11-20T02:34:48.697Z"
       },
-      nodes:[{
+      "nodes":[{
               "id":8,
       		"lat":23.0,
               "long":43.0,
