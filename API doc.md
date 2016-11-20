@@ -131,7 +131,25 @@ clears all the nodes assocciated to a route without deleting the route
 **Response:** 
  - Status code: 200
 sample Response:
-```
+```json
 {"success":"all nodes are deleted"}
 ```
 
+POST /routes/:id/nodes
+**Body Params **
+- lat : float
+- long; float
+- 
+**Response:** 
+ - Status code: 200
+sample Response:
+
+```json
+{    "id":12,
+     "lat":23.0,
+     "long":2300000.0,
+     "route_id":13,
+     "created_at":"2016-11-20T20:35:29.992Z",
+     "updated_at":"2016-11-20T20:35:29.992Z"
+}
+```
