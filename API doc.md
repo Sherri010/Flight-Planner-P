@@ -1,6 +1,6 @@
  # User API
  
- ## `GET /routes`
+ ## GET /routes
  
 **Response:** 
  - Status code: 200
@@ -71,7 +71,7 @@ sample Response:
 sample Response:
 
  ```json
-   {
+   
      {
       "id":10,
       "name":"SF-LA",
@@ -80,7 +80,7 @@ sample Response:
       "created_at":"2016-11-20T02:34:48.697Z",
       "updated_at":"2016-11-20T02:34:48.697Z"
       }
-   }
+   
  ```
  
  
@@ -95,8 +95,8 @@ sample Response:
 sample Response:
 
  ```json
-   {
-     {
+   
+      {
       "id":10,
       "name":"SF-LA",
       "distance":1000.0,
@@ -104,7 +104,7 @@ sample Response:
       "created_at":"2016-11-20T02:34:48.697Z",
       "updated_at":"2016-11-20T02:34:48.697Z"
       }
-   }
+   
  ```
 
 
@@ -115,7 +115,7 @@ sample Response:
 sample Response:
 
  ```json
-   {
+   
      {
       "id":10,
       "name":"SF-LA",
@@ -124,7 +124,7 @@ sample Response:
       "created_at":"2016-11-20T02:34:48.697Z",
       "updated_at":"2016-11-20T02:34:48.697Z"
       }
-   }
+   
  ```
 
 ## DELETE /routes/:id/clear
