@@ -1,4 +1,4 @@
-# User API
+# Flight-Planner API
 ## GET /routes
  
 **Response:** 
