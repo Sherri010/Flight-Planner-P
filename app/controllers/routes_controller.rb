@@ -25,24 +25,29 @@ class RoutesController < ApplicationController
       end
   end
 
-  def update
-     d = Route.find(params[:id]).destroy
-     c = Route.create(route_params)
-     if c.valid? and d
-       render :json => c, status: 200
-    else
-       render :json => {error:'faild attempt'}, status: 400
-    end
-  end
-
    def destroy_all_nodes
-      Route.find(params[:id]).nodes.delete_all 
+      list = Route.find(params[:id]).nodes.delete_all
+      unless list
+        render :json => {success:"all nodes are deleted"}, status: 200
+      else
+        render :json => {error:"failed attempt"},status: 400
+      end
    end
 
   def destroy
      r = Route.find(params[:id]).destroy
     if r
        render :json => r, status: 200
+    else
+       render :json => {error:'faild attempt'}, status: 400
+    end
+  end
+
+  def update
+     d = Route.find(params[:id]).destroy
+     c = Route.create(route_params)
+     if c.valid? and d
+       render :json => c, status: 200
     else
        render :json => {error:'faild attempt'}, status: 400
     end
