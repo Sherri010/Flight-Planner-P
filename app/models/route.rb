@@ -6,4 +6,12 @@ class Route < ApplicationRecord
   validates :distance, presence: true
   validates :user_id, presence: true
 
+  before_destroy :destroy_nodes
+
+  private
+
+  def destroy_nodes
+    self.nodes.delete_all   
+  end
+
 end

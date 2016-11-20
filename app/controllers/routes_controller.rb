@@ -35,6 +35,10 @@ class RoutesController < ApplicationController
     end
   end
 
+   def destroy_all_nodes
+      Route.find(params[:id]).nodes.delete_all 
+   end
+
   def destroy
      r = Route.find(params[:id]).destroy
     if r
