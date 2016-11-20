@@ -1,0 +1,56 @@
+class RoutesController < ApplicationController
+
+  def index
+     render :json => Route.all,status: 200
+  end
+
+  def show
+    route = Route.find(params[:id])
+    node = route.nodes
+    result = {"routes": route, "nodes":node}
+   if route
+     render :json => result,status: 200
+   else
+     render :json => {error:"not found"},status: 400
+   end
+  end
+
+  def create
+    #  route = current_user.routes.create(:name => params[:name],:distance =>params[:distance])
+      r = Route.create(route_params)
+      if r.valid?
+         render :json => r, status: 200
+      else
+         render :json => {error:'faild attempt'}, status: 400
+      end
+  end
+
+  def update
+     d = Route.find(params[:id]).destroy
+     c = Route.create(route_params)
+     if c.valid? and d
+       render :json => c, status: 200
+    else
+       render :json => {error:'faild attempt'}, status: 400
+    end
+  end
+
+   def destroy_all_nodes
+      Route.find(params[:id]).nodes.delete_all 
+   end
+
+  def destroy
+     r = Route.find(params[:id]).destroy
+    if r
+       render :json => r, status: 200
+    else
+       render :json => {error:'faild attempt'}, status: 400
+    end
+  end
+
+private
+  def route_params
+    params.require(:route).permit(:name,:distance,:user_id)
+  end
+
+end
