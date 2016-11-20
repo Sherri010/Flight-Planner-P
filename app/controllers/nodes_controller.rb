@@ -1,5 +1,6 @@
 class NodesController < ApplicationController
-
+    before_action :authenticate
+    
   def create
    new_node = Route.find(params[:route_id]).nodes.create(node_params)
     if new_node.valid?
