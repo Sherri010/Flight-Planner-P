@@ -28,9 +28,6 @@ class RoutesController < ApplicationController
   def update
      d = Route.find(params[:id]).destroy
      c = Route.create(route_params)
-     p "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-     p c
-     p d
      if c.valid? and d
        render :json => c, status: 200
     else
