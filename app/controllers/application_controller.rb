@@ -8,5 +8,4 @@ class ApplicationController < ActionController::Base
             @auth_user = User.find_by(auth_token: token)
         end
     end
-    
 end
