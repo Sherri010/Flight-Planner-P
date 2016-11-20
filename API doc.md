@@ -126,7 +126,7 @@ sample Response:
    
  ```
 
-## DELETE /routes/:id/clear
+## DELETE /routes/:id/nodes/clear
 clears all the nodes assocciated to a route without deleting the route
 **Response:** 
  - Status code: 200
