@@ -27,13 +27,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/map/new-plan");
 });
 
-app.controller('MapController', function() {
-    var vm = this;
-
+app.controller('MapController', function($scope) {
     var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var labelIndex = 0;
 
-    var marker_list=[];
+    $scope.marker_list = [];
 
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -46,11 +44,13 @@ app.controller('MapController', function() {
 
         google.maps.event.addListener(map, 'click', function(event) {
             var new_marker={lat:event.latLng.lat(),lng:event.latLng.lng() }
-            marker_list.push(new_marker);
-            console.log(marker_list)
+            $scope.marker_list.push(new_marker);
+
+            $scope.$broadcast("flightapp:newmarker");
+
             addMarker(event.latLng, map);
             var flightPath = new google.maps.Polyline({
-                path: marker_list,
+                path: $scope.marker_list,
                 geodesic: true,
                 strokeColor: '#ff0000',
                 strokeOpacity: 1.0,
@@ -72,14 +72,15 @@ app.controller('MapController', function() {
     initMap();
 });
 
-app.controller('PlanController', function() {
-    var vm= this;
-    vm.message = 'new plan stuff';
-
+app.controller('PlanController', function($scope) {
+    $scope.$on("flightapp:newmarker", function() {
+        console.log($scope.marker_list);
+    });
 });
 
 app.controller('WeatherController', function() {
-    var vm=this;
+    var vm = this;
+
     vm.message = 'weahter api data';
 });
 
