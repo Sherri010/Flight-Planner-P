@@ -3,9 +3,9 @@
         <div class="nav-wrapper blue-grey darken-4">
           <a href="#" class="brand-logo">AirPlanner</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="#new-plan">New Route</a></li>
-            <li><a href="#weather">Weather</a></li>
-            <li><a href="#airports">Airports</a></li>
+            <li><a ui-sref="map.newplan">New Route</a></li>
+            <li><a ui-sref="map.weather">Weather</a></li>
+            <li><a ui-sref="map.airports">Airports</a></li>
             <li><%= link_to "Log out", destroy_user_session_path,:method=>"delete"%></li>
           </ul>
         </div>
@@ -13,7 +13,7 @@
   </div>
 
   <div>
-    <div ui-view="base"></div>
+    <div ui-view></div>
   </div>
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi__6svk5rapTW5bKx4mOTMN1r8PDIoTU"></script>
