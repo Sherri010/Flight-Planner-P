@@ -1,0 +1,53 @@
+<div class="wrapper">
+     <!-- make it a text with icon -->
+     <a class="signup" href="#modal2" >Sign up</a>
+     <div>
+        <h1 class="title"> AirPlanner </h1>
+     </div>
+     <div class="options">
+          <a class="waves-effect waves-light btn-large grey darken-2 " href="#modal1">Log in</a>
+       <!-- <a class="waves-effect waves-light btn-large   grey darken-2" href="dashboard.html">Login</a> -->
+
+     </div>
+
+     <div id="modal1" class="modal">
+      <div class="modal-content">
+        <h5>Log in</h5>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <label>Email:</label>
+          <%= f.email_field :email, autofocus: true %>
+          <label>Password:</label>
+          <%= f.password_field :password, autocomplete: "off" %>
+          <%= f.submit "Log in" %>
+
+          <% if devise_mapping.rememberable? -%>
+            <div class="field">
+              <%= f.check_box :remember_me %>
+              <%= f.label :remember_me %>
+            </div>
+          <% end -%>
+        <% end %>
+
+        <%= render "users/shared/links" %>
+      </div>
+    </div>
+
+    <div id="modal2" class="modal">
+     <div class="modal-content">
+       <h5>Sign Up</h5>
+       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+         <label>Name:</label>
+         <input type:"text" placeholder="Your Name" id="new_name" >
+         <label>Email:</label>
+         <%= f.email_field :email, autofocus: true %>
+         <label>Password:</label>
+         <%= f.password_field :password, autocomplete: "off" %>
+         <label>Confirm password:</label>
+         <%= f.password_field :password_confirmation, autocomplete: "off" %>
+         <%= f.submit "Sign Up" %>
+       <% end %>
+      </div>
+   </div>
+
+
+  </div>

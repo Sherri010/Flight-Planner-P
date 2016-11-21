@@ -1,0 +1,40 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+}
+.wrapper{
+  background:url('/assets/landing.jpg') no-repeat;
+  background-size:cover;
+  height:100vh;
+  margin:0px;
+  padding:0px;
+}
+h1 {margin:0px;}
+a.signup{
+  margin:10px;
+   float:right;
+   font-size: 20px;
+   color:#fff;
+   padding-right: 10px;
+}
+
+.title{
+  font-family:ideal sans-serif;
+  text-align: center;
+  padding:200px;
+  color:#fff;
+  font-size: 80px;
+}
+
+.options {
+ margin: 0 auto;
+ width:500px;
+ padding:0px;
+ text-align: center;
+}
+
+#map {
+  height: 80%;
+}
