@@ -36,5 +36,13 @@ a.signup{
 }
 
 #map {
-  height: 80%;
+  height:92vh;
+  width:65%;
+  float:right;
+}
+#actions{
+  height:92vh;
+  width: 35%;
+  float:left;
+  background:grey;
 }
