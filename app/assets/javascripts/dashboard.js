@@ -21,14 +21,18 @@ app.config(function($routeProvider) {
 	});
 
 
-	app.controller('PlanController', function($scope) {
-		$scope.message = 'new plan stuff';
+	app.controller('PlanController', function() {
+    var vm= this;
+		vm.message = 'new plan stuff';
+
 	});
 
-  app.controller('weatherController', function($scope) {
-		$scope.message = 'weahter api data';
+  app.controller('weatherController', function() {
+    var vm=this;
+		vm.message = 'weahter api data';
 	});
 
-app.controller('airportController',function($scope){
-  $scope.message = 'airport list api';
+app.controller('airportController',function(){
+  var vm=this;
+  vm.message = 'airport list api';
 });

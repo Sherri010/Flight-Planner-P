@@ -20,14 +20,19 @@ a.signup{
    padding-right: 10px;
 }
 
-.title{
+/*.title{
   font-family:ideal sans-serif;
   text-align: center;
   padding:200px;
   color:#fff;
   font-size: 80px;
-}
+}*/
+.logo{
 
+  display: block;
+  margin:0 auto;
+  padding:150px;
+}
 .options {
  margin: 0 auto;
  width:500px;
@@ -53,4 +58,14 @@ a.signup{
   font-size: 20px;
   background: #000066;
   margin-top: 150px;
+}
+
+.action-title{
+  color:#fff;
+  text-align: center;
+  margin-bottom:50px;
+}
+
+.plan-label{
+  color:#fff;
 }
