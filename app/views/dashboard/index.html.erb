@@ -6,7 +6,7 @@
             <li><a href="#new-plan">New Route</a></li>
             <li><a href="#weather">Weather</a></li>
             <li><a href="#airports">Airports</a></li>
-            <li><a href="#logut">Log out</a></li>
+            <li><%= link_to "Log out", destroy_user_session_path,:method=>"delete"%></li>
           </ul>
         </div>
       </nav>

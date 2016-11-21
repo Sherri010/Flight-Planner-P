@@ -22,7 +22,6 @@ app.config(function($routeProvider) {
 
 
 	app.controller('PlanController', function($scope) {
-
 		$scope.message = 'new plan stuff';
 	});
 
