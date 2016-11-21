@@ -3,11 +3,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  has_many :routes
 
+  has_many :routes
   before_create :set_auth_token
 
-private
+  private
+
 
   def set_auth_token
       if auth_token.present?
