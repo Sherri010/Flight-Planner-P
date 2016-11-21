@@ -13,21 +13,29 @@ html, body {
 }
 h1 {margin:0px;}
 a.signup{
-  margin:10px;
+   margin:10px;
    float:right;
    font-size: 20px;
    color:#fff;
-   padding-right: 10px;
+   padding: 5px 10px;
+   background: rgba(0, 0, 102,0.5);
+   border-radius: 3px;
 }
 
-.title{
+/*.title{
   font-family:ideal sans-serif;
   text-align: center;
   padding:200px;
   color:#fff;
   font-size: 80px;
-}
+}*/
+.logo{
 
+  display: block;
+  margin:0 auto;
+  padding:150px;
+  
+}
 .options {
  margin: 0 auto;
  width:500px;
@@ -36,5 +44,31 @@ a.signup{
 }
 
 #map {
-  height: 80%;
+  height:92vh;
+  width:65%;
+  float:right;
+}
+
+#actions{
+  height:92vh;
+  width: 35%;
+  float:left;
+  background:grey;
+}
+
+.login-landing-page{
+  width:200px;
+  font-size: 20px;
+  background: #000066;
+  margin-top: 150px;
+}
+
+.action-title{
+  color:#fff;
+  text-align: center;
+  margin-bottom:50px;
+}
+
+.plan-label{
+  color:#fff;
 }

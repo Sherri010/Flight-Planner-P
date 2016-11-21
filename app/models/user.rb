@@ -3,11 +3,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-         
+
   has_many :routes
   before_create :set_auth_token
 
   private
+
 
   def set_auth_token
       if auth_token.present?
@@ -20,6 +21,4 @@ class User < ApplicationRecord
   def generate_auth_token
       return SecureRandom.uuid.gsub(/\-/, '')
   end
-
-
 end
