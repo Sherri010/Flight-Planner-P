@@ -1,5 +1,8 @@
 var app = angular.module("flightApp", ["ui.router"]);
 
+
+
+
 app.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state("map", {
@@ -73,10 +76,11 @@ app.controller('MapController', function($scope) {
 });
 
 app.controller('PlanController', function($scope) {
-  var vm = this;
-  $scope.coordinates="vnggh";
-  $scope.name ="sherri";
+  //getting user
+  var user = document.getElementById('user').getAttribute("value");
+  console.log("user is",user);
 
+ // listening for any changes on the marker list and updating the view
   $scope.$on("flightapp:newmarker", function() {
     //  console.log($scope.marker_list);
      $scope.$apply(function () {

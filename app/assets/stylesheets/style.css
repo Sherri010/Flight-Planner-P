@@ -34,7 +34,7 @@ a.signup{
   display: block;
   margin:0 auto;
   padding:150px;
-  
+
 }
 .options {
  margin: 0 auto;
@@ -72,3 +72,5 @@ a.signup{
 .plan-label{
   color:#fff;
 }
+
+.pad { padding-right: 400px;}

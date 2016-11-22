@@ -1,5 +1,5 @@
 class RoutesController < ApplicationController
-    before_action :authenticate
+    # before_action :authenticate
 
   def index
      render :json => Route.all,status: 200
