@@ -136,11 +136,6 @@ app.controller('PlanController', function($scope,$http) {
     }else {
       alert("name the route");
     }
-
-
-
-
-
  }
 });
 
@@ -152,7 +147,6 @@ app.controller('HistroyController',function($scope,$http){
           method: "GET",
           url: "http://localhost:3000/routes/",
        }).success(function(data) {
-           alert("GOT IT");
            console.log(data);
            $scope.allRoutes = data;
       }).error(function() {
@@ -164,10 +158,8 @@ app.controller('HistroyController',function($scope,$http){
             method: "GET",
             url: "http://localhost:3000/routes/"+id,
          }).success(function(data) {
-             alert("GOT IT route nodes");
              console.log(data);
              $scope.nodes = data.nodes;
-
         }).error(function() {
             alert("Error finding routes!");
         });
