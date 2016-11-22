@@ -73,14 +73,22 @@ app.controller('MapController', function($scope) {
 });
 
 app.controller('PlanController', function($scope) {
-    $scope.$on("flightapp:newmarker", function() {
-        console.log($scope.marker_list);
+  var vm = this;
+  $scope.coordinates="vnggh";
+  $scope.name ="sherri";
+
+  $scope.$on("flightapp:newmarker", function() {
+    //  console.log($scope.marker_list);
+     $scope.$apply(function () {
+      $scope.coordinates = $scope.marker_list;
     });
+      console.log("coord ",$scope.coordinates);
+  });
+
 });
 
 app.controller('WeatherController', function() {
     var vm = this;
-
     vm.message = 'weahter api data';
 });
 
