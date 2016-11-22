@@ -5,7 +5,10 @@
 
   <p>  Use the map to select locations you have in mind  </p>
 <!-- <p>{{coordinates}}</p> -->
-  <div>{{coordinates}}</div>
+  <div ng-repeat="c in coordinates">
+    <label>Lat:</label>{{c.lat}}
+    <label>Lng:</label>{{c.lng}}
+  </div>
 </div>
 
 <a class="waves-effect waves-light btn save_route" ng-show="save_flag" ng-click="saveRoute();">Save Route</a>
