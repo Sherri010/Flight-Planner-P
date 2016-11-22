@@ -2,7 +2,10 @@
      <nav>
         <div class="nav-wrapper blue-grey darken-4">
           <a href="#" class="brand-logo">AirPlanner</a>
+          <%= hidden_field_tag 'user',current_user.id %>
+
           <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li class="pad"> <%= current_user.email %></li>
             <li><a ui-sref="map.newplan">New Route</a></li>
             <li><a ui-sref="map.weather">Weather</a></li>
             <li><a ui-sref="map.airports">Airports</a></li>

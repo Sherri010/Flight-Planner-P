@@ -34,7 +34,7 @@ a.signup{
   display: block;
   margin:0 auto;
   padding:150px;
-  
+
 }
 .options {
  margin: 0 auto;
@@ -71,4 +71,14 @@ a.signup{
 
 .plan-label{
   color:#fff;
+}
+
+.pad { padding-right: 400px;}
+
+.save_route{
+  display: block;
+  margin:0 auto;
+  position: absolute;
+  bottom:20px;
+  left:160px;
 }
