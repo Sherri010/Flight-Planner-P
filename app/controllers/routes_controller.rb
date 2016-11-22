@@ -39,6 +39,7 @@ class RoutesController < ApplicationController
      r = Route.find(params[:id]).destroy
     if r
       render :json => {success:'successfully removed route'}, status: 200
+      
     else
        render :json => {error:'faild attempt'}, status: 400
     end
