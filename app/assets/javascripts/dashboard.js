@@ -25,11 +25,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/airports",
             templateUrl: "pages/airports.html",
             controller: "AirportController"
+        })
+        .state("map.savedplan",{
+            url: "/saved-plans",
+            templateUrl: "pages/saved.html",
+            controller: "HistroyController"
         });
 
     $urlRouterProvider.otherwise("/map/new-plan");
 });
 
+
+///MAP
 app.controller('MapController', function($scope) {
     var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var labelIndex = 0;
@@ -75,11 +82,14 @@ app.controller('MapController', function($scope) {
     initMap();
 });
 
+
+///Plan
 app.controller('PlanController', function($scope,$http) {
   //getting user
   var user = document.getElementById('user').getAttribute("value");
   $scope.save_flag=false;
-  $scope.routeName;
+  $scope.success_save=false;
+  $scope.routeName = null;
   $scope.route ={};
  // listening for any changes on the marker list and updating the view
   $scope.$on("flightapp:newmarker", function() {
@@ -87,6 +97,7 @@ app.controller('PlanController', function($scope,$http) {
       $scope.coordinates = $scope.marker_list;
       if($scope.coordinates.length)
         $scope.save_flag=true;
+        $scope.success_save=false;
     });
   });
 
@@ -94,16 +105,18 @@ app.controller('PlanController', function($scope,$http) {
  $scope.saveRoute=function(){
   var route_id=null;
    //creating route if id is not available
-
+   if ($scope.routeName)
+     {
       $http({
            method: "POST",
            url: "http://localhost:3000/routes",
            data: {
-               route:{name:"NY to SF",user_id:user,distance:34500}
+               route:{name:$scope.routeName,user_id:user,distance:34500}
            }
        }).success(function(data) {
             route_id=data.id;
             console.log(data, " ",route_id);
+            // if success at the nodes to created route
             $http({
                     method: "POST",
                     url: "http://localhost:3000/routes/"+route_id+"/nodes",
@@ -111,28 +124,66 @@ app.controller('PlanController', function($scope,$http) {
                         node:$scope.coordinates
                     }
                 }).success(function(data) {
-                    alert("SUCCESS")
-                     console.log(data);
+                     alert("SUCCESS");
+                     $scope.save_flag=false;
+                     $scope.success_save=true;
                 }).error(function() {
                     alert("Error saving nodes!");
                 });
-
        }).error(function() {
            alert("Error saving route!");
        });
+    }else {
+      alert("name the route");
+    }
 
 
-    //saving the nodes for the route
+
 
 
  }
 });
 
+
+//saved routes
+app.controller('HistroyController',function($scope,$http){
+  $scope.allRoutes;
+  $http({
+          method: "GET",
+          url: "http://localhost:3000/routes/",
+       }).success(function(data) {
+           alert("GOT IT");
+           console.log(data);
+           $scope.allRoutes = data;
+      }).error(function() {
+          alert("Error finding routes!");
+      });
+ //get routes details
+  $scope.getNodes=function(id){
+    $http({
+            method: "GET",
+            url: "http://localhost:3000/routes/"+id,
+         }).success(function(data) {
+             alert("GOT IT route nodes");
+             console.log(data);
+             $scope.nodes = data.nodes;
+
+        }).error(function() {
+            alert("Error finding routes!");
+        });
+
+  }
+});
+
+
+
+//WEATHER
 app.controller('WeatherController', function() {
     var vm = this;
     vm.message = 'weahter api data';
 });
 
+///Airport
 app.controller('AirportController',function(){
     var vm=this;
     vm.message = 'airport list api';
