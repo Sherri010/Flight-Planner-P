@@ -68,6 +68,22 @@ app.controller('MapController', function($scope) {
             });
             flightPath.setMap(map);
         });
+
+        $scope.$on("flightapp:shownodes",function(event,data) {
+            console.log("got into apply");
+            console.log(data)
+            $scope.coordinates = data;
+            var flightPath = new google.maps.Polyline({
+                path: $scope.coordinates,
+                geodesic: true,
+                strokeColor: '#ff0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 4
+            });
+            flightPath.setMap(map);
+
+        });
+
         function addMarker(location, map) {
             var marker = new google.maps.Marker({
                 position: location,
@@ -122,7 +138,7 @@ app.controller('PlanController', function($scope,$http) {
                     url: "http://localhost:3000/routes/"+route_id+"/nodes",
                     data: {
                         node:$scope.coordinates
-                    }
+                  }
                 }).success(function(data) {
                      alert("SUCCESS");
                      $scope.save_flag=false;
@@ -136,11 +152,6 @@ app.controller('PlanController', function($scope,$http) {
     }else {
       alert("name the route");
     }
-
-
-
-
-
  }
 });
 
@@ -148,31 +159,49 @@ app.controller('PlanController', function($scope,$http) {
 //saved routes
 app.controller('HistroyController',function($scope,$http){
   $scope.allRoutes;
+  $scope.nodes;
+  getAllRoute();
+
+  function getAllRoute(){
   $http({
           method: "GET",
           url: "http://localhost:3000/routes/",
        }).success(function(data) {
-           alert("GOT IT");
            console.log(data);
            $scope.allRoutes = data;
       }).error(function() {
           alert("Error finding routes!");
       });
+
+ }
  //get routes details
   $scope.getNodes=function(id){
-    $http({
+       $http({
             method: "GET",
             url: "http://localhost:3000/routes/"+id,
          }).success(function(data) {
-             alert("GOT IT route nodes");
-             console.log(data);
              $scope.nodes = data.nodes;
-
+             console.log("from get nodes: ",$scope.nodes)
+             $scope.$emit("flightapp:shownodes",$scope.nodes);
         }).error(function() {
             alert("Error finding routes!");
         });
-
   }
+
+  //delete route
+  $scope.removeRoute=function(id){
+
+    $http({
+            method: "DELETE",
+            url: "http://localhost:3000/routes/"+id,
+         }).success(function(data) {
+            //update the view
+            getAllRoute();
+        }).error(function() {
+            alert("Error deleting routes!");
+        });
+  }
+
 });
 
 
