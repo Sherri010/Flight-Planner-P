@@ -75,20 +75,57 @@ app.controller('MapController', function($scope) {
     initMap();
 });
 
-app.controller('PlanController', function($scope) {
+app.controller('PlanController', function($scope,$http) {
   //getting user
   var user = document.getElementById('user').getAttribute("value");
-  console.log("user is",user);
-
+  $scope.save_flag=false;
+  $scope.routeName;
+  $scope.route ={};
  // listening for any changes on the marker list and updating the view
   $scope.$on("flightapp:newmarker", function() {
-    //  console.log($scope.marker_list);
      $scope.$apply(function () {
       $scope.coordinates = $scope.marker_list;
+      if($scope.coordinates.length)
+        $scope.save_flag=true;
     });
-      console.log("coord ",$scope.coordinates);
   });
 
+
+ $scope.saveRoute=function(){
+  var route_id=null;
+   //creating route if id is not available
+
+      $http({
+           method: "POST",
+           url: "http://localhost:3000/routes",
+           data: {
+               route:{name:"NY to SF",user_id:user,distance:34500}
+           }
+       }).success(function(data) {
+            route_id=data.id;
+            console.log(data, " ",route_id);
+            $http({
+                    method: "POST",
+                    url: "http://localhost:3000/routes/"+route_id+"/nodes",
+                    data: {
+                        node:$scope.coordinates
+                    }
+                }).success(function(data) {
+                    alert("SUCCESS")
+                     console.log(data);
+                }).error(function() {
+                    alert("Error saving nodes!");
+                });
+
+       }).error(function() {
+           alert("Error saving route!");
+       });
+
+
+    //saving the nodes for the route
+
+
+ }
 });
 
 app.controller('WeatherController', function() {

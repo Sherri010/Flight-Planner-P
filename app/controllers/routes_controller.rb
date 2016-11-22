@@ -22,7 +22,7 @@ class RoutesController < ApplicationController
       if r.valid?
          render :json => r, status: 200
       else
-         render :json => {error:'faild attempt'}, status: 400
+         render :json => {error:'faild attempt',  p: params}, status: 400
       end
   end
 

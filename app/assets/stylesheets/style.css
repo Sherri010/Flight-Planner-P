@@ -74,3 +74,11 @@ a.signup{
 }
 
 .pad { padding-right: 400px;}
+
+.save_route{
+  display: block;
+  margin:0 auto;
+  position: absolute;
+  bottom:20px;
+  left:160px;
+}
