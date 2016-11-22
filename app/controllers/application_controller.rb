@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   #           @auth_user = User.find_by(auth_token: token)
   #       end
   #   end
-   protect_from_forgery with: :exception
+   protect_from_forgery with: :null_session
 
     # def authenticate
     #     authenticate_or_request_with_http_token do |token, options|
