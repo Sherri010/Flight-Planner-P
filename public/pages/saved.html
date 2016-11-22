@@ -1,5 +1,11 @@
-<h5 class="action-title">Your Saved Routes</h5>
-<div ng-repeat="route in allRoutes">
- <p>{{route.name}} - Distance: {{route.distance}}Km</p>
- <a ng-click="getNodes(route.id);"> more detail </a>
+
+<div class="container">
+  <h5 class="action-title">Your Saved Routes</h5>
+  <div ng-repeat="route in allRoutes">
+ <h5> <i class="material-icons">room</i>  {{route.name}} </h5>
+    <p> distance: {{route.distance}}Km -
+    <a href ng-click="getNodes(route.id);">more</a> |
+    <a href class="warning" ng-click="removeRoute(route.id)">delete</a>
+   </p>
+  </div>
 </div>

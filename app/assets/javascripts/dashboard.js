@@ -143,6 +143,7 @@ app.controller('PlanController', function($scope,$http) {
 //saved routes
 app.controller('HistroyController',function($scope,$http){
   $scope.allRoutes;
+  function getAllRoute(){
   $http({
           method: "GET",
           url: "http://localhost:3000/routes/",
@@ -152,9 +153,12 @@ app.controller('HistroyController',function($scope,$http){
       }).error(function() {
           alert("Error finding routes!");
       });
+
+    }
+    getAllRoute();
  //get routes details
   $scope.getNodes=function(id){
-    $http({
+       $http({
             method: "GET",
             url: "http://localhost:3000/routes/"+id,
          }).success(function(data) {
@@ -163,7 +167,20 @@ app.controller('HistroyController',function($scope,$http){
         }).error(function() {
             alert("Error finding routes!");
         });
+  }
 
+  //delete route
+  $scope.removeRoute=function(id){
+
+    $http({
+            method: "DELETE",
+            url: "http://localhost:3000/routes/"+id,
+         }).success(function(data) {
+             console.log(data);
+            getAllRoute()
+        }).error(function() {
+            alert("Error deleting routes!");
+        });
   }
 });
 

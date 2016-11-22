@@ -2,7 +2,7 @@ class RoutesController < ApplicationController
     # before_action :authenticate
 
   def index
-     render :json => Route.where(user_id:current_user.id),status: 200
+     render :json => Route.where(user_id:current_user.id).order(created_at: :desc),status: 200
   end
 
   def show
@@ -38,7 +38,7 @@ class RoutesController < ApplicationController
   def destroy
      r = Route.find(params[:id]).destroy
     if r
-       render :json => r, status: 200
+      render :json => {success:'successfully removed route'}, status: 200
     else
        render :json => {error:'faild attempt'}, status: 400
     end
