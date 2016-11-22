@@ -2,7 +2,7 @@ class RoutesController < ApplicationController
     # before_action :authenticate
 
   def index
-     render :json => Route.all,status: 200
+     render :json => Route.where(user_id:current_user.id),status: 200
   end
 
   def show
