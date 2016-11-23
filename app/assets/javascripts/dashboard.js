@@ -199,8 +199,8 @@ app.controller('PlanController', function($scope,$http) {
 
  $scope.calcSpeed = function(){
     //console.log('coming from pln controller',$scope.totalDistance);
-  var mph = $scope.speed * 1.152
-  $scope.travelTime= $scope.distance / mph;
+  var mph = $scope.speed * 1.152;
+  $scope.travelTime = $scope.totalDistance / mph;
   console.log($scope.travelTime)
  }
 });
