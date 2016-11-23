@@ -21,7 +21,8 @@
   <p> Total: </p> <span>{{totalDistance}} m</span>
   <hr>
   <p> Test Speed:</p>
-  <input type="number" id="speed_input" placeholder="Speed" ng-model="speed" ng-change="calcSpeed()">
+  <input type="number" id="speed_input" placeholder="Speed" ng-model="speed">
+  <a class="waves-effect waves-light btn"  ng-click="calcSpeed();"> Calculate travel time</a>
 </div>
 <a class="waves-effect waves-light btn save_route"  ng-click="saveRoute();">Save Route</a>
 <h3 ng-show="success_save"> New Route Saved Successfully </h3>

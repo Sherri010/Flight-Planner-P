@@ -149,6 +149,7 @@ app.controller('PlanController', function($scope,$http) {
   $scope.routeName = null;
   $scope.route ={};
   $scope.speed;
+  $scope.travelTime;
  // listening for any changes on the marker list and updating the view
   $scope.$on("flightapp:newmarker", function() {
      $scope.$apply(function () {
@@ -197,8 +198,10 @@ app.controller('PlanController', function($scope,$http) {
  }
 
  $scope.calcSpeed = function(){
-    console.log('coming from pln controller',$scope.totalDistance);
-
+    //console.log('coming from pln controller',$scope.totalDistance);
+  var mph = $scope.speed * 1.152
+  $scope.travelTime= $scope.distance / mph;
+  console.log($scope.travelTime)
  }
 });
 
