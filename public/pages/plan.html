@@ -1,15 +1,16 @@
 
 <h5 class="action-title">Plan New Route</h5>
-<div class="container">
+<div class="container plan">
   <label class="plan-label"> Name your route:</label>
   <input type="text" placeholder="Route name" ng-model="routeName">
 
   <p>  Use the map to select locations you have in mind  </p>
 <!-- <p>{{coordinates}}</p> -->
+<ol>
   <div ng-repeat="c in coordinates">
-    <label>Lat: </label><span class="lat">{{c.lat}}</span>
-    <label>Lng: </label><span>{{c.lng}}</span>
+  <li><div><label>Lat: </label><span class="lat">{{c.lat}}</span> <label>Lng: </label><span>{{c.lng}}</span></li></idv>
   </div>
+</ol>
 </div>
 
 <a class="waves-effect waves-light btn save_route" ng-show="save_flag" ng-click="saveRoute();">Save Route</a>

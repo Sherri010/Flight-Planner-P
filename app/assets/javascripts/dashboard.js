@@ -38,8 +38,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 ///MAP
 app.controller('MapController', function($scope) {
-    var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var labelIndex = 0;
+  //  $scope.labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $scope.labels="123456789"
+    $scope.labelIndex = 0;
 
     $scope.marker_list = [];
 
@@ -87,7 +88,7 @@ app.controller('MapController', function($scope) {
         function addMarker(location, map) {
             var marker = new google.maps.Marker({
                 position: location,
-                label: labels[labelIndex++ % labels.length],
+                label: $scope.labels[$scope.labelIndex++ % $scope.labels.length],
                 map: map
             });
 
