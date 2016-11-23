@@ -55,9 +55,6 @@ app.controller('MapController', function($scope) {
 
         google.maps.event.addListener(map, 'click', function(event) {
             var new_marker={lat:event.latLng.lat(),lng:event.latLng.lng() }
-            $scope.marker_list.push(new_marker);
-
-            $scope.$broadcast("flightapp:newmarker");
 
             addMarker(event.latLng, map);
             var flightPath = new google.maps.Polyline({
@@ -68,6 +65,8 @@ app.controller('MapController', function($scope) {
                 strokeWeight: 4
             });
             flightPath.setMap(map);
+            $scope.marker_list.push(new_marker);
+            $scope.$broadcast("flightapp:newmarker");
         });
 
         $scope.$on("flightapp:shownodes",function(event,data) {
@@ -84,6 +83,9 @@ app.controller('MapController', function($scope) {
             flightPath.setMap(map);
 
         });
+        var overlay = new google.maps.OverlayView();
+        overlay.draw = function() {};
+        overlay.setMap(map);
 
         function addMarker(location, map) {
             var marker = new google.maps.Marker({
@@ -91,7 +93,19 @@ app.controller('MapController', function($scope) {
                 label: $scope.labels[$scope.labelIndex++ % $scope.labels.length],
                 map: map
             });
-
+           console.log(marker)
+            google.maps.event.addListener(marker, 'mouseover', function() {
+                var projection = overlay.getProjection();
+                var pixel = projection.fromLatLngToContainerPixel(marker.getPosition());
+                console.log(marker.position.lat(),marker.position.lng());
+            });
+            var infoContent = "<b>Lat:</b> "+ marker.position.lat().toString()+" | <b>lng:</b>"+ marker.position.lng().toString();
+            var infowindow = new google.maps.InfoWindow({
+              content: infoContent
+            });
+            marker.addListener('click', function() {
+              infowindow.open(map, marker);
+            });
         }
 
     }
