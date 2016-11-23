@@ -12,7 +12,7 @@
  <th> Lat </th><th> Lng </th><th> Distance </th>
 </tr>
 <tbody>
- <tr ng-repeat="c in coordinates" ><td><span>{{c.lat}}</span></td><td><span>{{c.lng}}</span></td><td>{{distances[$index]}}</td></tr>
+ <tr ng-repeat="c in coordinates"><td><span>{{c.lat}}</span></td><td><span>{{c.lng}}</span></td><td>{{distances[$index]}}</td></tr>
 </tbody>
 </table>
 <a class="waves-effect waves-light btn save_route" ng-show="save_flag" ng-click="saveRoute();">Save Route</a>

@@ -80,6 +80,7 @@ app.controller('MapController', function($scope) {
             var new_marker={lat:event.latLng.lat(),lng:event.latLng.lng() }
 
             $scope.marker_list.push(new_marker);
+            calcDistance();
             $scope.$broadcast("flightapp:newmarker");
             addMarker(event.latLng, map);
             var flightPath = new google.maps.Polyline({
@@ -90,7 +91,6 @@ app.controller('MapController', function($scope) {
                 strokeWeight: 4
             });
             flightPath.setMap(map);
-            calcDistance();
         });
 
         $scope.$on("flightapp:shownodes",function(event,data) {
