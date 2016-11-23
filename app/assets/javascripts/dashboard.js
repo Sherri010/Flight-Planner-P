@@ -41,13 +41,32 @@ app.controller('MapController', function($scope) {
   //  $scope.labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $scope.labels="123456789"
     $scope.labelIndex = 0;
-
     $scope.marker_list = [];
+
+    function calcDistance(){
+      if ($scope.marker_list.length < 2 )
+          return;
+      var lat1 = $scope.marker_list[$scope.marker_list.length-2].lat;
+      var lat2 = $scope.marker_list[$scope.marker_list.length-1].lat;
+      var lon1 = $scope.marker_list[$scope.marker_list.length-2].lng;
+      var lon2 = $scope.marker_list[$scope.marker_list.length-1].lng;
+      var radlat1 = Math.PI * lat1/180
+    	var radlat2 = Math.PI * lat2/180
+    	var theta = lon1-lon2
+    	var radtheta = Math.PI * theta/180
+    	var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    	dist = Math.acos(dist)
+    	dist = dist * 180/Math.PI
+    	dist = dist * 60 * 1.1515
+    	//if (unit=="K") { dist = dist * 1.609344 }
+    //	if (unit=="N") { dist = dist * 0.8684 }
+    dist = dist * 1.609344
+    	console.log("Distance:",dist)
+    }
 
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 9,
-            center: {lat: 37.712, lng: -122.213},
+            zoom: 9,center: {lat: 37.712, lng: -122.213},
             streetViewControl: false,
             mapTypeId: 'terrain'
         });
@@ -56,6 +75,8 @@ app.controller('MapController', function($scope) {
         google.maps.event.addListener(map, 'click', function(event) {
             var new_marker={lat:event.latLng.lat(),lng:event.latLng.lng() }
 
+            $scope.marker_list.push(new_marker);
+            $scope.$broadcast("flightapp:newmarker");
             addMarker(event.latLng, map);
             var flightPath = new google.maps.Polyline({
                 path: $scope.marker_list,
@@ -65,8 +86,8 @@ app.controller('MapController', function($scope) {
                 strokeWeight: 4
             });
             flightPath.setMap(map);
-            $scope.marker_list.push(new_marker);
-            $scope.$broadcast("flightapp:newmarker");
+            calcDistance();
+
         });
 
         $scope.$on("flightapp:shownodes",function(event,data) {
