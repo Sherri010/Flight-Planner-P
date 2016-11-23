@@ -42,10 +42,13 @@ app.controller('MapController', function($scope) {
     $scope.labels="123456789"
     $scope.labelIndex = 0;
     $scope.marker_list = [];
+    $scope.distances=[];
 
     function calcDistance(){
-      if ($scope.marker_list.length < 2 )
+      if ($scope.marker_list.length == 1 )
+      { $scope.distances.push(0);
           return;
+        }
       var lat1 = $scope.marker_list[$scope.marker_list.length-2].lat;
       var lat2 = $scope.marker_list[$scope.marker_list.length-1].lat;
       var lon1 = $scope.marker_list[$scope.marker_list.length-2].lng;
@@ -59,9 +62,10 @@ app.controller('MapController', function($scope) {
     	dist = dist * 180/Math.PI
     	dist = dist * 60 * 1.1515
     	//if (unit=="K") { dist = dist * 1.609344 }
-    //	if (unit=="N") { dist = dist * 0.8684 }
-    dist = dist * 1.609344
-    	console.log("Distance:",dist)
+      //	if (unit=="N") { dist = dist * 0.8684 }
+      dist= dist * 1.609344
+      $scope.distances.push(dist);
+      	console.log("Distance:",$scope.distances)
     }
 
     function initMap() {
@@ -87,7 +91,6 @@ app.controller('MapController', function($scope) {
             });
             flightPath.setMap(map);
             calcDistance();
-
         });
 
         $scope.$on("flightapp:shownodes",function(event,data) {
