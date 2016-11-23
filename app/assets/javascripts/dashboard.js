@@ -63,8 +63,8 @@ app.controller('MapController', function($scope) {
     	dist = dist * 180/Math.PI
     	dist = dist * 60 * 1.1515
     	//if (unit=="K") { dist = dist * 1.609344 }
-      //	if (unit=="N") { dist = dist * 0.8684 }
-      dist= dist * 1.609344
+      //if (unit=="N") { dist = dist * 0.8684 }
+      dist= dist *  0.8684
       $scope.distances.push(dist);
       console.log("Distance:",$scope.distances);
       $scope.totalDistance += dist;
@@ -148,6 +148,7 @@ app.controller('PlanController', function($scope,$http) {
   $scope.success_save=false;
   $scope.routeName = null;
   $scope.route ={};
+  $scope.speed;
  // listening for any changes on the marker list and updating the view
   $scope.$on("flightapp:newmarker", function() {
      $scope.$apply(function () {
@@ -193,6 +194,11 @@ app.controller('PlanController', function($scope,$http) {
     }else {
       alert("name the route");
     }
+ }
+
+ $scope.calcSpeed = function(){
+    console.log('coming from pln controller',$scope.totalDistance);
+
  }
 });
 

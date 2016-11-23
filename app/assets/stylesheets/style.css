@@ -54,7 +54,6 @@ a.signup{
   width: 35%;
   float:left;
   background:grey;
-  overflow: scroll;
 }
 
 .login-landing-page{
@@ -83,14 +82,10 @@ a.signup{
   bottom:20px;
   left:160px;
 }
-
-.warning{
-  color:#b71c1c ;
-}
-
 .plan{
   width:95%;
 }
-.coordinates-table{
-  font-size: 15px;
+#speed_input{
+  width:200px;
+  float:left;
 }
