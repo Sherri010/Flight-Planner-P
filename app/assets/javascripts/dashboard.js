@@ -43,6 +43,7 @@ app.controller('MapController', function($scope) {
     $scope.labelIndex = 0;
     $scope.marker_list = [];
     $scope.distances=[];
+    $scope.totalDistance=0;
 
     function calcDistance(){
       if ($scope.marker_list.length == 1 )
@@ -65,7 +66,8 @@ app.controller('MapController', function($scope) {
       //	if (unit=="N") { dist = dist * 0.8684 }
       dist= dist * 1.609344
       $scope.distances.push(dist);
-      	console.log("Distance:",$scope.distances)
+      console.log("Distance:",$scope.distances);
+      $scope.totalDistance += dist;
     }
 
     function initMap() {
