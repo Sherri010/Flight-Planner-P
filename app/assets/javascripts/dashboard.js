@@ -38,11 +38,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 ///MAP
 app.controller('MapController', function($scope) {
-  //  $scope.labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $scope.labels="123456789"
+   $scope.labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  //  $scope.labels="123456789"
     $scope.labelIndex = 0;
     $scope.marker_list = [];
     $scope.distances=[];
+    $scope.totalDistance=0;
 
     function calcDistance(){
       if ($scope.marker_list.length == 1 )
@@ -62,10 +63,11 @@ app.controller('MapController', function($scope) {
     	dist = dist * 180/Math.PI
     	dist = dist * 60 * 1.1515
     	//if (unit=="K") { dist = dist * 1.609344 }
-      //	if (unit=="N") { dist = dist * 0.8684 }
-      dist= dist * 1.609344
+      //if (unit=="N") { dist = dist * 0.8684 }
+      dist= dist *  0.8684
       $scope.distances.push(dist);
-      	console.log("Distance:",$scope.distances)
+      console.log("Distance:",$scope.distances);
+      $scope.totalDistance += dist;
     }
 
     function initMap() {
@@ -146,6 +148,8 @@ app.controller('PlanController', function($scope,$http) {
   $scope.success_save=false;
   $scope.routeName = null;
   $scope.route ={};
+  $scope.speed;
+  $scope.travelTime;
  // listening for any changes on the marker list and updating the view
   $scope.$on("flightapp:newmarker", function() {
      $scope.$apply(function () {
@@ -191,6 +195,13 @@ app.controller('PlanController', function($scope,$http) {
     }else {
       alert("name the route");
     }
+ }
+
+ $scope.calcSpeed = function(){
+    //console.log('coming from pln controller',$scope.totalDistance);
+  var mph = $scope.speed * 1.152;
+  $scope.travelTime = $scope.totalDistance / mph;
+  console.log($scope.travelTime)
  }
 });
 
