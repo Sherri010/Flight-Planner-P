@@ -38,8 +38,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 ///MAP
 app.controller('MapController', function($scope) {
-  //  $scope.labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $scope.labels="123456789"
+   $scope.labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  //  $scope.labels="123456789"
     $scope.labelIndex = 0;
     $scope.marker_list = [];
     $scope.distances=[];
