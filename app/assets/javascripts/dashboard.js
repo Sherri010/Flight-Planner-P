@@ -46,14 +46,17 @@ app.controller('MapController', function($scope) {
     $scope.coordinates=[];
 
     function calcDistance(){
-      if ($scope.marker_list.length == 1 )
-      { $scope.distances.push(0);
-          return;
+      if ($scope.coordinates.length == 1 )
+        { $scope.$apply(function () {
+            $scope.distances.push(0);
+          });
+            return;
         }
-      var lat1 = $scope.marker_list[$scope.marker_list.length-2].lat;
-      var lat2 = $scope.marker_list[$scope.marker_list.length-1].lat;
-      var lon1 = $scope.marker_list[$scope.marker_list.length-2].lng;
-      var lon2 = $scope.marker_list[$scope.marker_list.length-1].lng;
+
+      var lat1 = $scope.coordinates[$scope.coordinates.length-2].lat;
+      var lat2 = $scope.coordinates[$scope.coordinates.length-1].lat;
+      var lon1 = $scope.coordinates[$scope.coordinates.length-2].lng;
+      var lon2 = $scope.coordinates[$scope.coordinates.length-1].lng;
       var radlat1 = Math.PI * lat1/180
     	var radlat2 = Math.PI * lat2/180
     	var theta = lon1-lon2
@@ -64,10 +67,12 @@ app.controller('MapController', function($scope) {
     	dist = dist * 60 * 1.1515
     	//if (unit=="K") { dist = dist * 1.609344 }
       //if (unit=="N") { dist = dist * 0.8684 }
-      dist= dist *  0.8684
+      dist= dist *  0.8684;
+       $scope.$apply(function () {
       $scope.distances.push(dist);
       console.log("Distance:",$scope.distances);
       $scope.totalDistance += dist;
+    });
     }
 
     function initMap() {
@@ -81,11 +86,13 @@ app.controller('MapController', function($scope) {
         google.maps.event.addListener(map, 'click', function(event) {
             var new_marker ={lat:event.latLng.lat(),lng:event.latLng.lng() };
 
+            $scope.coordinates.push(new_marker);
             addMarker(event.latLng, map);
 
             $scope.$broadcast("flightapp:newmarker",new_marker);
 
-            //calcDistance();
+            calcDistance();
+
             var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
                 geodesic: true,
@@ -171,7 +178,6 @@ app.controller('PlanController', function($scope,$http) {
  // listening for any changes on the marker list and updating the view
   $scope.$on("flightapp:newmarker", function(event,data) {
      $scope.$apply(function () {
-      $scope.coordinates.push(data);
       if($scope.coordinates.length)
         $scope.save_flag=true;
         $scope.success_save=false;
