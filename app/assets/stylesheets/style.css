@@ -54,6 +54,7 @@ a.signup{
   width: 35%;
   float:left;
   background:grey;
+    overflow: scroll;
 }
 
 .login-landing-page{
