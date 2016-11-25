@@ -44,7 +44,7 @@ app.controller('MapController', function($scope) {
     $scope.distances=[];
     $scope.totalDistance=0;
     $scope.coordinates=[];
-
+    var flightPath_list =[];
     function calcDistance(){
       if ($scope.coordinates.length == 1 )
         { $scope.$apply(function () {
@@ -93,7 +93,7 @@ app.controller('MapController', function($scope) {
 
             calcDistance();
 
-            var flightPath = new google.maps.Polyline({
+           var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
                 geodesic: true,
                 strokeColor: '#ff0000',
@@ -101,6 +101,7 @@ app.controller('MapController', function($scope) {
                 strokeWeight: 4
             });
             flightPath.setMap(map);
+            flightPath_list.push(flightPath);
         });
 
         $scope.$on("flightapp:shownodes",function(event,data) {
@@ -118,17 +119,23 @@ app.controller('MapController', function($scope) {
         });
 
         //delete all nodes from the map
-        function setMapOnAll(map) {
+        function clearMarkerAndPoly(map) {
           console.log("in set map delete",$scope.marker_list)
-         for (var i = 0; i <  $scope.marker_list.length; i++) {
-          $scope.marker_list[i].setMap(null);
-         }
+           for (var i = 0; i <  $scope.marker_list.length; i++) {
+            $scope.marker_list[i].setMap(null);
+           }
+          for(i=0;i<flightPath_list.length;i++){
+            flightPath_list[i].setMap(null);
+          }
         }
 
         //event listener for deleting marker from unsaved route
         $scope.$on("flightapp:updatemap",function(){
           console.log("im in update now,removing all nodes first");
-          setMapOnAll(null);
+          clearMarkerAndPoly(null);
+
+
+          console.log($scope.marker_list)
         });
 
         //for adding info window to the marker
@@ -228,11 +235,9 @@ app.controller('PlanController', function($scope,$http) {
  }
 
  $scope.removeNode=function(node_index){
-    $scope.marker_list.splice(node_index,1);
-    $scope.coordinates = $scope.marker_list;
-    console.log("coor",$scope.coordinates);
-    console.log("marker",$scope.marker_list);
-    $scope.$emit("flightapp:updatemap");
+       $scope.$emit("flightapp:updatemap");
+    var removed_node = $scope.marker_list.splice(node_index,1);
+    $scope.coordinates.splice(node_index,1);
   }
 });
 
