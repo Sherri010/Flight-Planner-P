@@ -119,25 +119,35 @@ app.controller('MapController', function($scope) {
         });
 
         //delete all nodes from the map
-        function clearMarkerAndPoly(map) {
+        $scope.clearMarkerAndPoly=function(map) {
           console.log("in set map delete",$scope.marker_list)
-           for (var i = 0; i <  $scope.marker_list.length; i++) {
-            $scope.marker_list[i].setMap(null);
+          for (var i = 0; i <  $scope.marker_list.length; i++) {
+            $scope.marker_list[i].setMap(map);
            }
+          $scope.labelIndex = 0;
           for(i=0;i<flightPath_list.length;i++){
-            flightPath_list[i].setMap(null);
-          }
+            flightPath_list[i].setMap(map);
+           }
+
+        }
+        $scope.setMapForAll=function(){
+          for (var i = 0; i <  $scope.marker_list.length; i++) {
+            $scope.marker_list[i].setMap(map);
+           }
+        $scope.$emit("flightapp:shownodes",$scope.coordinates);
         }
 
+
         //event listener for deleting marker from unsaved route
-        $scope.$on("flightapp:updatemap",function(){
+        $scope.$on("flightapp:updatemap_remove",function(){
           console.log("im in update now,removing all nodes first");
-          clearMarkerAndPoly(null);
-
-
-          console.log($scope.marker_list)
+          $scope.clearMarkerAndPoly(null);
         });
 
+      $scope.$on("flightapp:updatemap_repaint",function(){
+          console.log("im in update now,repainting");
+          $scope.setMapForAll(map);
+      })
         //for adding info window to the marker
         var overlay = new google.maps.OverlayView();
         overlay.draw = function() {};
@@ -235,9 +245,10 @@ app.controller('PlanController', function($scope,$http) {
  }
 
  $scope.removeNode=function(node_index){
-       $scope.$emit("flightapp:updatemap");
-    var removed_node = $scope.marker_list.splice(node_index,1);
+    $scope.$emit("flightapp:updatemap_remove");
+    $scope.marker_list.splice(node_index,1);
     $scope.coordinates.splice(node_index,1);
+    $scope.$emit("flightapp:updatemap_repaint");
   }
 });
 
