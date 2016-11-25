@@ -12,7 +12,10 @@
      <th> <i class="material-icons">room</i></th><th> Lat </th><th> Lng </th><th> Distance </th>
     </tr>
     <tbody>
-     <tr ng-repeat="c in coordinates"><td><span>{{labels[$index]}}</span></td><td><span>{{c.lat}}</span></td><td><span>{{c.lng}}</span></td><td>{{distances[$index]}} m</td></tr>
+     <tr ng-repeat="c in coordinates">
+        <td><span>{{labels[$index]}}</span></td><td><span>{{c.lat}}</span></td><td><span>{{c.lng}}</span></td><td>{{distances[$index]}} m</td>
+        <td><a href=""  ng-click="removeNode($index);" style="color:#fff;">X</a></td>
+     </tr>
     </tbody>
   </table>
 </div>
