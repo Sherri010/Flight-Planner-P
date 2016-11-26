@@ -47,34 +47,53 @@ app.controller('MapController', function($scope) {
     var flightPath_list =[];
 
     //calculates the distance between each near markers and add to total
-    function calcDistance(){
+    function calcDistance(source){
       if ($scope.coordinates.length == 1 )
-        { $scope.$apply(function () {
+        {
             $scope.distances.push(0);
-          });
             return;
         }
+        var coor=[];
+       var twoNodeDistance = function(coor){
+           var lat1 = coor[0];
+           var lat2 = coor[1];
+           var lon1 = coor[2];
+           var lon2 = coor[3];
 
-      var lat1 = $scope.coordinates[$scope.coordinates.length-2].lat;
-      var lat2 = $scope.coordinates[$scope.coordinates.length-1].lat;
-      var lon1 = $scope.coordinates[$scope.coordinates.length-2].lng;
-      var lon2 = $scope.coordinates[$scope.coordinates.length-1].lng;
-      var radlat1 = Math.PI * lat1/180
-    	var radlat2 = Math.PI * lat2/180
-    	var theta = lon1-lon2
-    	var radtheta = Math.PI * theta/180
-    	var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-    	dist = Math.acos(dist)
-    	dist = dist * 180/Math.PI
-    	dist = dist * 60 * 1.1515
-    	//if (unit=="K") { dist = dist * 1.609344 }
-      //if (unit=="N") { dist = dist * 0.8684 }
-      dist= dist *  0.8684;
-       $scope.$apply(function () {
-      $scope.distances.push(dist);
-      console.log("Distance:",$scope.distances);
-      $scope.totalDistance += dist;
-    });
+          var radlat1 = Math.PI * lat1/180
+          var radlat2 = Math.PI * lat2/180
+          var theta = lon1-lon2
+          var radtheta = Math.PI * theta/180
+          var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+          dist = Math.acos(dist)
+          dist = dist * 180/Math.PI
+          dist = dist * 60 * 1.1515
+          //if (unit=="K") { dist = dist * 1.609344 }
+           //if (unit=="N") { dist = dist * 0.8684 }
+          dist= dist *  0.8684;
+           $scope.distances.push(dist);
+           console.log("Distance:",$scope.distances);
+          $scope.totalDistance += dist;
+          return dist;
+       }
+       if(source == "add_new_marker"){
+        coor.push($scope.coordinates[$scope.coordinates.length-2].lat);
+        coor.push($scope.coordinates[$scope.coordinates.length-1].lat);
+        coor.push($scope.coordinates[$scope.coordinates.length-2].lng);
+        coor.push($scope.coordinates[$scope.coordinates.length-1].lng);
+        twoNodeDistance(coor);
+      }
+
+      if(source == "repainting_markers"){
+        for(var i=1;i<$scope.coordinates.length;i++){
+          coor =[];
+          coor.push($scope.coordinates[i-1].lat);
+          coor.push($scope.coordinates[i].lat);
+          coor.push($scope.coordinates[i-1].lng);
+          coor.push($scope.coordinates[i].lng);
+          twoNodeDistance(coor);
+        }
+      }
     }
 
     function initMap() {
@@ -92,8 +111,7 @@ app.controller('MapController', function($scope) {
             addMarker(event.latLng, map);
 
             $scope.$broadcast("flightapp:newmarker",new_marker);
-
-            calcDistance();
+            calcDistance("add_new_marker");
 
            var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
@@ -109,7 +127,7 @@ app.controller('MapController', function($scope) {
         $scope.$on("flightapp:shownodes",function(event,data) {
           //  console.log("got into apply");
           //  console.log(data)
-            $scope.coordinates = data;
+          $scope.coordinates = data;
           console.log("from show nodes: ",$scope.coordinates)
             var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
@@ -165,7 +183,9 @@ app.controller('MapController', function($scope) {
       $scope.$on("flightapp:updatemap_repaint",function(){
           console.log("im in update now,repainting",$scope.coordinates);
           $scope.setMapForAll(map);
-
+          $scope.distances=[0];
+          $scope.totalDistance = 0;
+          calcDistance("repainting_markers");
       })
         //for adding info window to the marker
         var overlay = new google.maps.OverlayView();
