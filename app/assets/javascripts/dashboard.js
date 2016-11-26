@@ -45,6 +45,7 @@ app.controller('MapController', function($scope) {
     $scope.totalDistance=0;
     $scope.coordinates=[];
     var flightPath_list =[];
+
     function calcDistance(){
       if ($scope.coordinates.length == 1 )
         { $scope.$apply(function () {
@@ -105,9 +106,10 @@ app.controller('MapController', function($scope) {
         });
 
         $scope.$on("flightapp:shownodes",function(event,data) {
-            console.log("got into apply");
-            console.log(data)
+          //  console.log("got into apply");
+          //  console.log(data)
             $scope.coordinates = data;
+          console.log("from show nodes: ",$scope.coordinates)
             var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
                 geodesic: true,
@@ -115,12 +117,12 @@ app.controller('MapController', function($scope) {
                 strokeOpacity: 1.0,
                 strokeWeight: 4
             });
+
             flightPath.setMap(map);
         });
 
         //delete all nodes from the map
         $scope.clearMarkerAndPoly=function(map) {
-          console.log("in set map delete",$scope.marker_list)
           for (var i = 0; i <  $scope.marker_list.length; i++) {
             $scope.marker_list[i].setMap(map);
            }
@@ -128,25 +130,35 @@ app.controller('MapController', function($scope) {
           for(i=0;i<flightPath_list.length;i++){
             flightPath_list[i].setMap(map);
            }
-
+           flightPath_list=[];
         }
-        $scope.setMapForAll=function(){
+        $scope.setMapForAll=function(map){
           for (var i = 0; i <  $scope.marker_list.length; i++) {
+          //  console.log($scope.marker_list[i])
             $scope.marker_list[i].setMap(map);
            }
-        $scope.$emit("flightapp:shownodes",$scope.coordinates);
+           var flightPath = new google.maps.Polyline({
+               path: $scope.coordinates,
+               geodesic: true,
+               strokeColor: '#ff0000',
+               strokeOpacity: 1.0,
+               strokeWeight: 4
+           });
+           flightPath.setMap(map);
+           flightPath_list.push(flightPath);
         }
 
 
         //event listener for deleting marker from unsaved route
         $scope.$on("flightapp:updatemap_remove",function(){
-          console.log("im in update now,removing all nodes first");
+          //console.log("im in update now,removing all nodes first");
           $scope.clearMarkerAndPoly(null);
         });
 
       $scope.$on("flightapp:updatemap_repaint",function(){
-          console.log("im in update now,repainting");
+          console.log("im in update now,repainting",$scope.coordinates);
           $scope.setMapForAll(map);
+
       })
         //for adding info window to the marker
         var overlay = new google.maps.OverlayView();
