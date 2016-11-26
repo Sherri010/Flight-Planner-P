@@ -124,6 +124,20 @@ app.controller('MapController', function($scope) {
             flightPath_list.push(flightPath);
         });
 
+
+
+
+        $scope.$on("flightapp:showAirports",function(){
+            //  $http({  method: "GET",
+            //            url: "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+-33.8670522,151.1957362+"&radius="+500+"&type=airport&key=AIzaSyAVT3nMmwokka1LNB4SPppK85miCWkXNz0",
+            //           }).success(function(data) {
+            //            //update the view
+            //            getAllRoute();
+            //           }).error(function() {
+            //            alert("Error deleting routes!");
+            //   });
+        });
+
         $scope.$on("flightapp:shownodes",function(event,data) {
           //  console.log("got into apply");
           //  console.log(data)
@@ -347,7 +361,19 @@ app.controller('WeatherController', function() {
 });
 
 ///Airport
-app.controller('AirportController',function(){
-    var vm=this;
-    vm.message = 'airport list api';
+app.controller('AirportController',function($scope,$http){
+      var before_length = $scope.coordinates.length;
+      console.log("before:",before_length)
+      $scope.radius;
+    $scope.getAirports =function(){
+      var main_location;
+      var main_marker;
+       if($scope.coordinates.length == before_length+1)
+       { main_location = $scope.coordinates.pop();// will be used to make the http call
+         main_marker = $scope.marker_list.pop(); // will be used for removing from the map
+        alert($scope.radius)
+    }else{
+      alert("You haven't picked a location")
+    }
+  }
 });
