@@ -46,6 +46,7 @@ app.controller('MapController', function($scope) {
     $scope.coordinates=[];
     var flightPath_list =[];
 
+    //calculates the distance between each near markers and add to total
     function calcDistance(){
       if ($scope.coordinates.length == 1 )
         { $scope.$apply(function () {
@@ -117,12 +118,11 @@ app.controller('MapController', function($scope) {
                 strokeOpacity: 1.0,
                 strokeWeight: 4
             });
-
             flightPath.setMap(map);
         });
 
         //delete all nodes from the map
-        $scope.clearMarkerAndPoly=function(map) {
+        $scope.clearMarkerAndPoly=function(map,source) {
           for (var i = 0; i <  $scope.marker_list.length; i++) {
             $scope.marker_list[i].setMap(map);
            }
@@ -131,6 +131,13 @@ app.controller('MapController', function($scope) {
             flightPath_list[i].setMap(map);
            }
            flightPath_list=[];
+           if(source == 'actions'){
+             $scope.marker_list = [];
+             $scope.coordinates = [];
+             $scope.save_flag = false;
+             $scope.distances=[];
+             $scope.totalDistance=0;
+           }
         }
         $scope.setMapForAll=function(map){
           for (var i = 0; i <  $scope.marker_list.length; i++) {
