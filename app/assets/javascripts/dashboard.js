@@ -44,7 +44,9 @@ app.controller('MapController', function($scope) {
     $scope.distances=[];
     $scope.totalDistance=0;
     $scope.coordinates=[];
+    var flightPath_list =[];
 
+    //calculates the distance between each near markers and add to total
     function calcDistance(){
       if ($scope.coordinates.length == 1 )
         { $scope.$apply(function () {
@@ -93,7 +95,7 @@ app.controller('MapController', function($scope) {
 
             calcDistance();
 
-            var flightPath = new google.maps.Polyline({
+           var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
                 geodesic: true,
                 strokeColor: '#ff0000',
@@ -101,12 +103,14 @@ app.controller('MapController', function($scope) {
                 strokeWeight: 4
             });
             flightPath.setMap(map);
+            flightPath_list.push(flightPath);
         });
 
         $scope.$on("flightapp:shownodes",function(event,data) {
-            console.log("got into apply");
-            console.log(data)
+          //  console.log("got into apply");
+          //  console.log(data)
             $scope.coordinates = data;
+          console.log("from show nodes: ",$scope.coordinates)
             var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
                 geodesic: true,
@@ -118,19 +122,51 @@ app.controller('MapController', function($scope) {
         });
 
         //delete all nodes from the map
-        function setMapOnAll(map) {
-          console.log("in set map delete",$scope.marker_list)
-         for (var i = 0; i <  $scope.marker_list.length; i++) {
-          $scope.marker_list[i].setMap(null);
-         }
+        $scope.clearMarkerAndPoly=function(map,source) {
+          for (var i = 0; i <  $scope.marker_list.length; i++) {
+            $scope.marker_list[i].setMap(map);
+           }
+          $scope.labelIndex = 0;
+          for(i=0;i<flightPath_list.length;i++){
+            flightPath_list[i].setMap(map);
+           }
+           flightPath_list=[];
+           if(source == 'actions'){
+             $scope.marker_list = [];
+             $scope.coordinates = [];
+             $scope.save_flag = false;
+             $scope.distances=[];
+             $scope.totalDistance=0;
+           }
+        }
+        $scope.setMapForAll=function(map){
+          for (var i = 0; i <  $scope.marker_list.length; i++) {
+          //  console.log($scope.marker_list[i])
+            $scope.marker_list[i].setMap(map);
+           }
+           var flightPath = new google.maps.Polyline({
+               path: $scope.coordinates,
+               geodesic: true,
+               strokeColor: '#ff0000',
+               strokeOpacity: 1.0,
+               strokeWeight: 4
+           });
+           flightPath.setMap(map);
+           flightPath_list.push(flightPath);
         }
 
+
         //event listener for deleting marker from unsaved route
-        $scope.$on("flightapp:updatemap",function(){
-          console.log("im in update now,removing all nodes first");
-          setMapOnAll(null);
+        $scope.$on("flightapp:updatemap_remove",function(){
+          //console.log("im in update now,removing all nodes first");
+          $scope.clearMarkerAndPoly(null);
         });
 
+      $scope.$on("flightapp:updatemap_repaint",function(){
+          console.log("im in update now,repainting",$scope.coordinates);
+          $scope.setMapForAll(map);
+
+      })
         //for adding info window to the marker
         var overlay = new google.maps.OverlayView();
         overlay.draw = function() {};
@@ -228,11 +264,10 @@ app.controller('PlanController', function($scope,$http) {
  }
 
  $scope.removeNode=function(node_index){
+    $scope.$emit("flightapp:updatemap_remove");
     $scope.marker_list.splice(node_index,1);
-    $scope.coordinates = $scope.marker_list;
-    console.log("coor",$scope.coordinates);
-    console.log("marker",$scope.marker_list);
-    $scope.$emit("flightapp:updatemap");
+    $scope.coordinates.splice(node_index,1);
+    $scope.$emit("flightapp:updatemap_repaint");
   }
 });
 
