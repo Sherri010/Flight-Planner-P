@@ -48,7 +48,7 @@ app.controller('MapController', function($scope) {
 
     //calculates the distance between each near markers and add to total
     function calcDistance(source){
-      if ($scope.coordinates.length == 1 )
+      if ($scope.coordinates.length == 1 && $scope.distances[0]!= 0)
         {
             $scope.distances.push(0);
             return;
@@ -72,9 +72,9 @@ app.controller('MapController', function($scope) {
            //if (unit=="N") { dist = dist * 0.8684 }
           dist= dist *  0.8684;
            $scope.distances.push(dist);
-           console.log("Distance:",$scope.distances);
           $scope.totalDistance += dist;
-          return dist;
+          console.log("Distance:",$scope.distances,"total",$scope.totalDistance);
+
        }
        if(source == "add_new_marker"){
         coor.push($scope.coordinates[$scope.coordinates.length-2].lat);
