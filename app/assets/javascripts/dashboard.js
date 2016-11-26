@@ -54,7 +54,7 @@ app.controller('MapController', function($scope) {
             return;
         }
         var coor=[];
-       var twoNodeDistance = function(coor){
+        var twoNodeDistance = function(){
            var lat1 = coor[0];
            var lat2 = coor[1];
            var lon1 = coor[2];
@@ -81,7 +81,7 @@ app.controller('MapController', function($scope) {
         coor.push($scope.coordinates[$scope.coordinates.length-1].lat);
         coor.push($scope.coordinates[$scope.coordinates.length-2].lng);
         coor.push($scope.coordinates[$scope.coordinates.length-1].lng);
-        twoNodeDistance(coor);
+        twoNodeDistance();
       }
 
       if(source == "repainting_markers"){
@@ -91,7 +91,7 @@ app.controller('MapController', function($scope) {
           coor.push($scope.coordinates[i].lat);
           coor.push($scope.coordinates[i-1].lng);
           coor.push($scope.coordinates[i].lng);
-          twoNodeDistance(coor);
+          twoNodeDistance();
         }
       }
     }
