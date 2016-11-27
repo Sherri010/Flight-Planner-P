@@ -132,9 +132,11 @@ app.controller('MapController', function($scope,$http) {
             flightPath_list.push(flightPath);
         });
 
+        $scope.$on("flightapp:resetMap",function(){
+               initMap();
+        });
+
         $scope.$on("flightapp:shownodes",function(event,data) {
-          //  console.log("got into apply");
-          //  console.log(data)
           $scope.coordinates = data;
           console.log("from show nodes: ",$scope.coordinates)
             var flightPath = new google.maps.Polyline({
@@ -256,7 +258,9 @@ app.controller('PlanController', function($scope,$http) {
     });
   });
 
-
+   $scope.refreshMap =function(){
+     $scope.$emit("flightapp:resetMap");
+   }
  $scope.saveRoute=function(){
   var route_id=null;
    //creating route if id is not available
