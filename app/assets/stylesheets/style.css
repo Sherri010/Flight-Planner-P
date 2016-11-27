@@ -90,3 +90,8 @@ a.signup{
   width:200px;
   float:left;
 }
+
+.weather_location{
+  text-align: center;
+  color:#fff;
+}

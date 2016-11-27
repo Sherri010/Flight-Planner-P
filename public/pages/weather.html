@@ -1,7 +1,13 @@
 <div class="container">
   <h5 class="action-title">Weather Forcast</h5>
+  <ol>
+    <li>  Use the map to select locations  </li>
+    <li> Click on "Get Weather Forecast" </li>
+ </ol>
+  <a href="" ng-click="getWeather();" class="waves-effect waves-light btn "> Get Weather Forecast </a>
   <p> ( every 3 hours for the next three days ) </p>
-  <div class="container plan">
+  <div class="container plan" ng-show="weahter_data_ready">
+    <p class="weather_location">    <i class="material-icons">room</i> {{weather_location.name}} - {{weather_location.country}} </p>
     <table class="weather-table bordered">
       <tr>
        <th>hours from now</th><th> wind speed </th><th> wind degree </th><th> couldiness</th><th>weather</th>

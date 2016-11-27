@@ -44,7 +44,9 @@ app.controller('MapController', function($scope,$http) {
     $scope.distances=[];
     $scope.totalDistance=0;
     $scope.coordinates=[];
+    $scope.weather_marker; // will be used for removing from the map
     var flightPath_list =[];
+
 
     //calculates the distance between each near markers and add to total
     function calcDistance(source){
@@ -106,7 +108,13 @@ app.controller('MapController', function($scope,$http) {
 
         google.maps.event.addListener(map, 'click', function(event) {
             var new_marker ={lat:event.latLng.lat(),lng:event.latLng.lng() };
-
+            //remove weather marker if any
+            console.log("from map controller", $scope.weather_marker);
+            if( $scope.weather_marker )
+              {
+                $scope.weather_marker.setMap(null);
+                $scope.weather_marker =null;
+              }
             $scope.coordinates.push(new_marker);
             addMarker(event.latLng, map);
 
@@ -122,20 +130,6 @@ app.controller('MapController', function($scope,$http) {
             });
             flightPath.setMap(map);
             flightPath_list.push(flightPath);
-        });
-
-
-
-
-        $scope.$on("flightapp:showAirports",function(){
-            //  $http({  method: "GET",
-            //            url: "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+-33.8670522,151.1957362+"&radius="+500+"&type=airport&key=AIzaSyAVT3nMmwokka1LNB4SPppK85miCWkXNz0",
-            //           }).success(function(data) {
-            //            //update the view
-            //            getAllRoute();
-            //           }).error(function() {
-            //            alert("Error deleting routes!");
-            //   });
         });
 
         $scope.$on("flightapp:shownodes",function(event,data) {
@@ -157,6 +151,12 @@ app.controller('MapController', function($scope,$http) {
         $scope.clearMarkerAndPoly=function(map,source) {
           for (var i = 0; i <  $scope.marker_list.length; i++) {
             $scope.marker_list[i].setMap(map);
+           }
+           //remove weather marker if any
+          if( $scope.weather_marker )
+           {
+             $scope.weather_marker.setMap(map);
+             $scope.weather_marker =null;
            }
           $scope.labelIndex = 0;
           for(i=0;i<flightPath_list.length;i++){
@@ -232,6 +232,7 @@ app.controller('MapController', function($scope,$http) {
     }
 
     initMap();
+
 });
 
 
@@ -245,6 +246,7 @@ app.controller('PlanController', function($scope,$http) {
   $scope.route ={};
   $scope.speed;
   $scope.travelTime;
+
  // listening for any changes on the marker list and updating the view
   $scope.$on("flightapp:newmarker", function(event,data) {
      $scope.$apply(function () {
@@ -357,17 +359,36 @@ app.controller('HistroyController',function($scope,$http){
 //WEATHER
 app.controller('WeatherController', function($scope,$http) {
     var api_key = "6ee35593a7e1cb16b96c77a2f62e1211";
+    var before_length = $scope.coordinates.length;
+    $scope.radius;
     $scope.weather;
-    $scope.future = 16; 
-    $http({
-            method: "GET",
-            url: "http://api.openweathermap.org/data/2.5/forecast?lat="+38.274829797876976+"&lon="+-122.13687901385128 +"&APPID="+api_key
-            }).success(function(data) {
-                console.log("weather:  ",data);
-                $scope.weather= data.list;
-            }).error(function() {
-                alert("Error getting weather");
-          });
+    $scope.future = 16;
+    $scope.weather_location;
+    $scope.weahter_data_ready=false;
+    $scope.getWeather =function(){
+       if($scope.coordinates.length == before_length+1)
+       {   var weather_location = $scope.coordinates.pop();
+           $scope.weather_marker  = $scope.marker_list.pop();
+
+            $scope.weather_marker.setMap(null)
+         $http({
+                 method: "GET",
+                 url: "http://api.openweathermap.org/data/2.5/forecast?lat="+weather_location.lat+"&lon="+weather_location.lng +"&APPID="+api_key
+                 }).success(function(data) {
+                     console.log("weather:  ",data);
+                     $scope.weather_location = data.city;
+                     $scope.weather= data.list;
+                     $scope.labelIndex=0;
+                     $scope.weahter_data_ready=true;
+                 }).error(function() {
+                     alert("Error getting weather");
+               });
+       }
+       else{
+          alert("Make sure you select a location on the map to get weather forecast");
+       }
+    }
+
 });
 
 ///Airport
@@ -375,15 +396,14 @@ app.controller('AirportController',function($scope,$http){
       var before_length = $scope.coordinates.length;
       console.log("before:",before_length)
       $scope.radius;
-    $scope.getAirports =function(){
-      var main_location;
-      var main_marker;
-       if($scope.coordinates.length == before_length+1)
-       { main_location = $scope.coordinates.pop();// will be used to make the http call
-         main_marker = $scope.marker_list.pop(); // will be used for removing from the map
-        alert($scope.radius)
-    }else{
-      alert("You haven't picked a location")
-    }
-  }
+
+      $scope.getAirports =function(){
+         if($scope.coordinates.length == before_length+1 && $scope.radius)
+         {
+            //$scope.$emit("flightapp:getAirports",$scope.radius);
+         }
+         else{
+            alert("Make sure you enter radius and pick a location on the map.")
+         }
+      }
 });
