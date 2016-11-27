@@ -37,7 +37,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 
 ///MAP
-app.controller('MapController', function($scope) {
+app.controller('MapController', function($scope,$http) {
    $scope.labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $scope.labelIndex = 0;
     $scope.marker_list = [];
@@ -341,7 +341,7 @@ app.controller('HistroyController',function($scope,$http){
 
     $http({
             method: "DELETE",
-            url: "http://localhost:3000/routes/"+id,
+            url: "http://localhost:3000/routes/"+id
          }).success(function(data) {
             //update the view
             getAllRoute();
@@ -355,9 +355,19 @@ app.controller('HistroyController',function($scope,$http){
 
 
 //WEATHER
-app.controller('WeatherController', function() {
+app.controller('WeatherController', function($scope,$http) {
     var vm = this;
     vm.message = 'weahter api data';
+    var api_key = "6ee35593a7e1cb16b96c77a2f62e1211";
+
+    $http({
+          method: "GET",
+          url: "http://api.openweathermap.org/data/2.5/forecast?lat="+35+"&lon="+139 +"&APPID="+api_key
+      }).success(function(data) {
+         console.log("weather:  ",data)
+      }).error(function() {
+         alert("Error getting weather");
+    });
 });
 
 ///Airport
