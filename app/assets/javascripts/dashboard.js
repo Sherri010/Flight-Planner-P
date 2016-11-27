@@ -37,14 +37,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 
 ///MAP
-app.controller('MapController', function($scope) {
+app.controller('MapController', function($scope,$http) {
    $scope.labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $scope.labelIndex = 0;
     $scope.marker_list = [];
     $scope.distances=[];
     $scope.totalDistance=0;
     $scope.coordinates=[];
+    $scope.weather_marker; // will be used for removing from the map
     var flightPath_list =[];
+
 
     //calculates the distance between each near markers and add to total
     function calcDistance(source){
@@ -106,7 +108,13 @@ app.controller('MapController', function($scope) {
 
         google.maps.event.addListener(map, 'click', function(event) {
             var new_marker ={lat:event.latLng.lat(),lng:event.latLng.lng() };
-
+            //remove weather marker if any
+            console.log("from map controller", $scope.weather_marker);
+            if( $scope.weather_marker )
+              {
+                $scope.weather_marker.setMap(null);
+                $scope.weather_marker =null;
+              }
             $scope.coordinates.push(new_marker);
             addMarker(event.latLng, map);
 
@@ -143,6 +151,12 @@ app.controller('MapController', function($scope) {
         $scope.clearMarkerAndPoly=function(map,source) {
           for (var i = 0; i <  $scope.marker_list.length; i++) {
             $scope.marker_list[i].setMap(map);
+           }
+           //remove weather marker if any
+          if( $scope.weather_marker )
+           {
+             $scope.weather_marker.setMap(map);
+             $scope.weather_marker =null;
            }
           $scope.labelIndex = 0;
           for(i=0;i<flightPath_list.length;i++){
@@ -218,6 +232,7 @@ app.controller('MapController', function($scope) {
     }
 
     initMap();
+
 });
 
 
@@ -231,6 +246,7 @@ app.controller('PlanController', function($scope,$http) {
   $scope.route ={};
   $scope.speed;
   $scope.travelTime;
+
  // listening for any changes on the marker list and updating the view
   $scope.$on("flightapp:newmarker", function(event,data) {
      $scope.$apply(function () {
@@ -327,7 +343,7 @@ app.controller('HistroyController',function($scope,$http){
 
     $http({
             method: "DELETE",
-            url: "http://localhost:3000/routes/"+id,
+            url: "http://localhost:3000/routes/"+id
          }).success(function(data) {
             //update the view
             getAllRoute();
@@ -341,13 +357,53 @@ app.controller('HistroyController',function($scope,$http){
 
 
 //WEATHER
-app.controller('WeatherController', function() {
-    var vm = this;
-    vm.message = 'weahter api data';
+app.controller('WeatherController', function($scope,$http) {
+    var api_key = "6ee35593a7e1cb16b96c77a2f62e1211";
+    var before_length = $scope.coordinates.length;
+    $scope.radius;
+    $scope.weather;
+    $scope.future = 16;
+    $scope.weather_location;
+    $scope.weahter_data_ready=false;
+    $scope.getWeather =function(){
+       if($scope.coordinates.length == before_length+1)
+       {   var weather_location = $scope.coordinates.pop();
+           $scope.weather_marker  = $scope.marker_list.pop();
+
+            $scope.weather_marker.setMap(null)
+         $http({
+                 method: "GET",
+                 url: "http://api.openweathermap.org/data/2.5/forecast?lat="+weather_location.lat+"&lon="+weather_location.lng +"&APPID="+api_key
+                 }).success(function(data) {
+                     console.log("weather:  ",data);
+                     $scope.weather_location = data.city;
+                     $scope.weather= data.list;
+                     $scope.labelIndex=0;
+                     $scope.weahter_data_ready=true;
+                 }).error(function() {
+                     alert("Error getting weather");
+               });
+       }
+       else{
+          alert("Make sure you select a location on the map to get weather forecast");
+       }
+    }
+
 });
 
 ///Airport
-app.controller('AirportController',function(){
-    var vm=this;
-    vm.message = 'airport list api';
+app.controller('AirportController',function($scope,$http){
+      var before_length = $scope.coordinates.length;
+      console.log("before:",before_length)
+      $scope.radius;
+
+      $scope.getAirports =function(){
+         if($scope.coordinates.length == before_length+1 && $scope.radius)
+         {
+            //$scope.$emit("flightapp:getAirports",$scope.radius);
+         }
+         else{
+            alert("Make sure you enter radius and pick a location on the map.")
+         }
+      }
 });
