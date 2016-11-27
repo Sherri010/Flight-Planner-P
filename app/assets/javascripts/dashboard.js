@@ -356,18 +356,18 @@ app.controller('HistroyController',function($scope,$http){
 
 //WEATHER
 app.controller('WeatherController', function($scope,$http) {
-    var vm = this;
-    vm.message = 'weahter api data';
     var api_key = "6ee35593a7e1cb16b96c77a2f62e1211";
-
+    $scope.weather;
+    $scope.future = 16; 
     $http({
-          method: "GET",
-          url: "http://api.openweathermap.org/data/2.5/forecast?lat="+35+"&lon="+139 +"&APPID="+api_key
-      }).success(function(data) {
-         console.log("weather:  ",data)
-      }).error(function() {
-         alert("Error getting weather");
-    });
+            method: "GET",
+            url: "http://api.openweathermap.org/data/2.5/forecast?lat="+38.274829797876976+"&lon="+-122.13687901385128 +"&APPID="+api_key
+            }).success(function(data) {
+                console.log("weather:  ",data);
+                $scope.weather= data.list;
+            }).error(function() {
+                alert("Error getting weather");
+          });
 });
 
 ///Airport

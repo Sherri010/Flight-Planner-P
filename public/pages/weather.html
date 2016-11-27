@@ -1,2 +1,16 @@
-<h1> hello from weather html</h1>
-<h2>{{message}}</h2>
+<div class="container">
+  <h5 class="action-title">Weather Forcast</h5>
+  <p> ( every 3 hours for the next three days ) </p>
+  <div class="container plan">
+    <table class="weather-table bordered">
+      <tr>
+       <th>hours from now</th><th> wind speed </th><th> wind degree </th><th> couldiness</th><th>weather</th>
+      </tr>
+      <tbody>
+       <tr ng-repeat="w in weather  | limitTo:future">
+          <td>{{$index*3}}<td><span>{{w.wind.speed}}</span></td><td><span>{{w.wind.deg}}</span></td><td><span>{{w.clouds.all}}%</span></td><td>{{w.weather[0].description}} </td>
+       </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
