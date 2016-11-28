@@ -45,6 +45,7 @@ app.controller('MapController', function($scope,$http) {
     $scope.totalDistance=0;
     $scope.coordinates=[];
     $scope.weather_marker; // will be used for removing from the map
+    $scope.route_colors = ["#b71c1c","#880e4f","#4a148c","#004d40","#ff6f00","#4e342e"];
     var flightPath_list =[];
 
 
@@ -138,7 +139,6 @@ app.controller('MapController', function($scope,$http) {
         });
 
         $scope.$on("flightapp:shownodes",function(event,data,color_index) {
-          var route_colors=["#b71c1c","#880e4f","#4a148c","#004d40","#ff6f00","#4e342e"];
           $scope.coordinates = data;
           var temp_label_index = 0;
           var marker;
@@ -155,7 +155,7 @@ app.controller('MapController', function($scope,$http) {
             var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
                 geodesic: true,
-                strokeColor: route_colors[color_index],
+                strokeColor: $scope.route_colors[color_index],
                 strokeOpacity: 1.0,
                 strokeWeight: 4
             });
@@ -187,7 +187,6 @@ app.controller('MapController', function($scope,$http) {
            }
         }
         $scope.setMapForAll=function(map){
-          $scope.labelIndex=0;
           for (var i = 0; i <  $scope.marker_list.length; i++) {
           //  console.log($scope.marker_list[i])
             $scope.marker_list[i].setMap(map);
@@ -203,6 +202,7 @@ app.controller('MapController', function($scope,$http) {
            flightPath_list.push(flightPath);
         }
 
+
         //event listener for deleting marker from unsaved route
         $scope.$on("flightapp:updatemap_remove",function(){
           //console.log("im in update now,removing all nodes first");
@@ -210,30 +210,30 @@ app.controller('MapController', function($scope,$http) {
         });
 
       $scope.$on("flightapp:updatemap_repaint",function(){
+          console.log("im in update now,repainting",$scope.coordinates);
+          $scope.setMapForAll(map);
           $scope.distances=[0];
           $scope.totalDistance = 0;
-          $scope.labelIndex=0;
-          $scope.setMapForAll(map);
           calcDistance("repainting_markers");
-      });
+      })
         //for adding info window to the marker
         var overlay = new google.maps.OverlayView();
         overlay.draw = function() {};
         overlay.setMap(map);
 
         function addMarker(location, map) {
-          console.log("index is:",$scope.labelIndex)
             var marker = new google.maps.Marker({
                 position: location,
                 label: $scope.labels[$scope.labelIndex++ % $scope.labels.length],
                 map: map
             });
-
            $scope.marker_list.push(marker);
+           console.log("from addmarker",$scope.marker_list)
            //shows the coordinates in the console when hover
             google.maps.event.addListener(marker, 'mouseover', function() {
                 var projection = overlay.getProjection();
                 var pixel = projection.fromLatLngToContainerPixel(marker.getPosition());
+                console.log(marker.position.lat(),marker.position.lng());
             });
             var infoContent = "<b>Lat:</b> "+ marker.position.lat().toString()+" | <b>lng:</b>"+ marker.position.lng().toString();
             var infowindow = new google.maps.InfoWindow({
@@ -350,7 +350,11 @@ app.controller('HistroyController',function($scope,$http){
             url: "http://localhost:3000/routes/"+id,
          }).success(function(data) {
              $scope.nodes = data.nodes;
-             $scope.$emit("flightapp:shownodes",$scope.nodes,(Math.floor(Math.random() * 6)));
+             var random_color_index=(Math.floor(Math.random() * 6));
+             var icon = "#"+id; //created the seletor id for icon according to route id
+             $(icon).css("color", $scope.route_colors[random_color_index] );
+             $scope.$emit("flightapp:shownodes",$scope.nodes,random_color_index);
+
         }).error(function() {
             alert("Error finding routes!");
         });
