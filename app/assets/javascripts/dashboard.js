@@ -330,6 +330,12 @@ app.controller('HistroyController',function($scope,$http){
   getAllRoute();
 
   $scope.refreshMap =function(){
+    var icon_selector;
+    console.log("in here")
+    for(var i =0 ;i < $scope.allRoutes.length; i++){
+      icon_selector = "#"+$scope.allRoutes[i].id;
+      $(icon_selector).css("color","#000");
+    }
     $scope.$emit("flightapp:resetMap");
   }
   function getAllRoute(){
