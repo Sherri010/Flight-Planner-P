@@ -21,10 +21,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "pages/weather.html",
             controller: "WeatherController"
         })
-        .state("map.airports", {
-            url: "/airports",
-            templateUrl: "pages/airports.html",
-            controller: "AirportController"
+        .state("map.user", {
+            url: "/user",
+            templateUrl: "pages/user.html",
+            controller: "UserController"
         })
         .state("map.savedplan",{
             url: "/saved-plans",
@@ -396,18 +396,10 @@ app.controller('WeatherController', function($scope,$http) {
 });
 
 ///Airport
-app.controller('AirportController',function($scope,$http){
-      var before_length = $scope.coordinates.length;
-      console.log("before:",before_length)
-      $scope.radius;
-
-      $scope.getAirports =function(){
-         if($scope.coordinates.length == before_length+1 && $scope.radius)
-         {
-            //$scope.$emit("flightapp:getAirports",$scope.radius);
-         }
-         else{
-            alert("Make sure you enter radius and pick a location on the map.")
-         }
-      }
+app.controller('UserController',function($scope,$http){
+      var current_user_id = $("#user").val();
+      // $http({
+      //     method:"GET",
+      //     url:"http://localhost:3000/user/id"
+      // })
 });
