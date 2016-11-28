@@ -151,6 +151,7 @@ app.controller('MapController', function($scope,$http) {
                   label: $scope.labels[temp_label_index++]
                 });
            marker.setMap(map);
+           addPopUp(marker);
           }
 
           console.log("from show nodes: ",$scope.coordinates)
@@ -231,20 +232,25 @@ app.controller('MapController', function($scope,$http) {
             });
            $scope.marker_list.push(marker);
            console.log("from addmarker",$scope.marker_list)
-           //shows the coordinates in the console when hover
-            google.maps.event.addListener(marker, 'mouseover', function() {
-                var projection = overlay.getProjection();
-                var pixel = projection.fromLatLngToContainerPixel(marker.getPosition());
-                console.log(marker.position.lat(),marker.position.lng());
-            });
-            var infoContent = "<b>Lat:</b> "+ marker.position.lat().toString()+" | <b>lng:</b>"+ marker.position.lng().toString();
-            var infowindow = new google.maps.InfoWindow({
-              content: infoContent
-            });
-            marker.addListener('click', function() {
-              infowindow.open(map, marker);
-            });
+           addPopUp(marker);
         }
+
+        //shows the coordinates in the console when hover
+        function addPopUp(marker){
+          google.maps.event.addListener(marker, 'mouseover', function() {
+              var projection = overlay.getProjection();
+              var pixel = projection.fromLatLngToContainerPixel(marker.getPosition());
+              console.log(marker.position.lat(),marker.position.lng());
+          });
+          var infoContent = "<b>Lat:</b> "+ marker.position.lat().toString()+" | <b>lng:</b>"+ marker.position.lng().toString();
+          var infowindow = new google.maps.InfoWindow({
+            content: infoContent
+          });
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+        }
+
 
     }
 
