@@ -134,6 +134,7 @@ app.controller('MapController', function($scope,$http) {
                initMap();
                $scope.marker_list =[];
                $scope.coordinates = [];
+               $scope.labelIndex=0;
         });
 
         $scope.$on("flightapp:shownodes",function(event,data) {
