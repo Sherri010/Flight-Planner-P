@@ -394,12 +394,3 @@ app.controller('WeatherController', function($scope,$http) {
     }
 
 });
-
-///Airport
-app.controller('UserController',function($scope,$http){
-      var current_user_id = $("#user").val();
-      // $http({
-      //     method:"GET",
-      //     url:"http://localhost:3000/user/id"
-      // })
-});

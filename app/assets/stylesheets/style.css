@@ -86,10 +86,14 @@ a.signup{
   width:95%;
 }
 #speed_input{
-  width:200px;
-  float:left;
-}
+  width:110px;
+  padding-left:10px;
 
+}
+.travel_time{
+  padding:20px;
+  clear:both;
+}
 .weather_location{
   text-align: center;
   color:#fff;
@@ -112,4 +116,13 @@ a.signup{
 }
 #modal3{
   width:1000px;
+}
+
+.plan_button{
+  display: inline-block;
+}
+.plan_time{
+  display: block;
+  margin:0 auto;
+  width:80%;
 }
