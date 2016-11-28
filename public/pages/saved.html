@@ -2,10 +2,10 @@
 <div class="container">
   <h5 class="action-title">Your Saved Routes</h5>
   <div ng-repeat="route in allRoutes">
- <h5> <i id="{{route.id}}" class="material-icons">room</i>  {{route.name}} </h5>
+ <h5 id="{{route.id}}"> <i  class="material-icons">room</i>  {{route.name}} </h5>
     <p> distance: {{route.distance}} Miles -
-    <a href ng-click="getNodes(route.id);">show</a> |
-    <a href class="warning" ng-click="removeRoute(route.id)">delete</a>
+    <a href class="show-link" ng-click="getNodes(route.id);">show</a> |
+    <a href class="delete-link" ng-click="removeRoute(route.id)">delete</a>
    </p>
   </div>
 

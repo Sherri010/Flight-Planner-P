@@ -89,7 +89,7 @@ a.brand-logo {
   width:95%;
 }
 #speed_input{
-  width:110px;
+  width:160px;
   padding-left:10px;
 
 }
@@ -128,4 +128,16 @@ a.brand-logo {
   display: block;
   margin:0 auto;
   width:80%;
+}
+
+.show-link{
+  color:#fff;
+  font-size: 14px;
+  padding:5px;
+}
+.delete-link{
+  color:#ffcdd2;
+  font-size: 14px;
+  padding:5px;
+  text-decoration: underline;
 }
