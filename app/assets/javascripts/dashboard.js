@@ -73,10 +73,8 @@ app.controller('MapController', function($scope,$http) {
           //if (unit=="K") { dist = dist * 1.609344 }
            //if (unit=="N") { dist = dist * 0.8684 }
           dist= dist *  0.8684;
-           $scope.distances.push(dist);
-          $scope.totalDistance += dist;
-          console.log("Distance:",$scope.distances,"total",$scope.totalDistance);
-
+           $scope.distances.push(dist.toFixed(3));
+           $scope.totalDistance += dist;
        }
        if(source == "add_new_marker"){
         coor.push($scope.coordinates[$scope.coordinates.length-2].lat);
@@ -134,6 +132,9 @@ app.controller('MapController', function($scope,$http) {
 
         $scope.$on("flightapp:resetMap",function(){
                initMap();
+               $scope.marker_list =[];
+               $scope.coordinates = [];
+               $scope.labelIndex=0;
         });
 
         $scope.$on("flightapp:shownodes",function(event,data) {
@@ -299,8 +300,7 @@ app.controller('PlanController', function($scope,$http) {
 
  $scope.calcSpeed = function(){
     var mph = $scope.speed * 1.152;
-    $scope.travelTime = $scope.totalDistance / mph;
-    console.log($scope.travelTime);
+    $scope.travelTime = ($scope.totalDistance / mph).toFixed(3);
  }
 
  $scope.removeNode=function(node_index){
@@ -393,13 +393,4 @@ app.controller('WeatherController', function($scope,$http) {
        }
     }
 
-});
-
-///Airport
-app.controller('UserController',function($scope,$http){
-      var current_user_id = $("#user").val();
-      // $http({
-      //     method:"GET",
-      //     url:"http://localhost:3000/user/id"
-      // })
 });
