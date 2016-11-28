@@ -94,3 +94,11 @@ a.signup{
   text-align: center;
   color:#fff;
 }
+
+.profile_pic{
+  border-radius: 5px;
+  width:450px;
+  height:400px;
+  display: block;
+  margin:0 auto;
+}

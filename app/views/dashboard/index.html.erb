@@ -22,8 +22,8 @@
   <div id="modal1" class="modal">
     <div class="container" style="text-align:center;">
      <h4> Profile </h4>
+      <%= image_tag current_user.avatar.url,class:"profile_pic"%>
       <h5> <%= current_user.name %> </h5>
-     
     </div>
   </div>
 
