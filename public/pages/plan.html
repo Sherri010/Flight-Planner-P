@@ -13,7 +13,7 @@
     </tr>
     <tbody>
      <tr ng-repeat="c in coordinates">
-        <td><span>{{marker_list[$index].label}}</span></td><td><span>{{c.lat.toFixed(3)}}</span></td><td><span>{{c.lng.toFixed(3)}}</span></td><td>{{distances[$index]}} m</td>
+        <td><span>{{labels[$index]}}</span></td><td><span>{{c.lat.toFixed(3)}}</span></td><td><span>{{c.lng.toFixed(3)}}</span></td><td>{{distances[$index]}} m</td>
         <td><a href=""  ng-click="removeNode($index);" style="color:#fff;">X</a></td>
      </tr>
     </tbody>
@@ -24,7 +24,7 @@
     <span> Total: </span> <span>{{totalDistance}} m</span>
   <div>
     <span> Speed:</soan>
-    <input type="number" id="speed_input" placeholder="Testing Speed" ng-model="speed"> <span> Time:{{travelTime}} </span>
+    <input type="number" min="1" id="speed_input" placeholder="Testing Speed" ng-model="speed"> <span> Time:{{travelTime}} </span>
     <a class="waves-effect waves-light btn  blue-grey darken-3 plan_time"  ng-click="calcSpeed();"> Calculate travel time</a> <br>
   </div>
 </div>
