@@ -271,7 +271,7 @@ app.controller('PlanController', function($scope,$http) {
            method: "POST",
            url: "http://localhost:3000/routes",
            data: {
-               route:{name:$scope.routeName,user_id:user,distance:34500}
+               route:{name:$scope.routeName,user_id:user,distance:$scope.totalDistance.toFixed(3)}
            }
        }).success(function(data) {
             route_id=data.id;
