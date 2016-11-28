@@ -9,7 +9,7 @@
             <li><a ui-sref="map.newplan">+ New Route</a></li>
             <li><a ui-sref="map.savedplan">Saved Routes</a></li>
             <li><a ui-sref="map.weather">Weather</a></li>
-            <li><a href="#modal1">Profile</a></li>
+            <li><a href="#modal3">Profile</a></li>
             <li><%= link_to "Log out", destroy_user_session_path,:method=>"delete"%></li>
           </ul>
         </div>
@@ -19,12 +19,19 @@
   <div>
     <div ui-view></div>
   </div>
-  <div id="modal1" class="modal">
-    <div class="container" style="text-align:center;">
-     <h4> Profile </h4>
-      <h5> <%= current_user.name %> </h5>
-     
-    </div>
+  <div id="modal3" class="modal">
+    <div class=" profile" style="text-align:center;">
+      <h4> Profile </h4>
+      <div class="row">
+       <div class="col s6">
+        <%= image_tag current_user.avatar.url,class:"profile_pic"%>
+       </div>
+       <div class="col s6 user_info">
+         <p><strong> Name: </strong><%= current_user.name %> </p>
+         <p><strong> Joined: </strong><%= current_user.created_at.strftime("%d %b. %Y") %></p>
+      </div>
+     </div>
+   </div>
   </div>
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi__6svk5rapTW5bKx4mOTMN1r8PDIoTU"></script>
