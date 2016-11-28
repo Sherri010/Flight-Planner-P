@@ -137,13 +137,25 @@ app.controller('MapController', function($scope,$http) {
                $scope.labelIndex=0;
         });
 
-        $scope.$on("flightapp:shownodes",function(event,data) {
+        $scope.$on("flightapp:shownodes",function(event,data,color_index) {
+          var route_colors=["#b71c1c","#880e4f","#4a148c","#004d40","#ff6f00","#4e342e"];
           $scope.coordinates = data;
+          var temp_label_index = 0;
+          var marker;
+          for(var i =0; i<$scope.coordinates.length;i++){
+            marker = new google.maps.Marker({
+                  position: $scope.coordinates[i],
+                  map: map,
+                  label: $scope.labels[temp_label_index++]
+                });
+           marker.setMap(map);
+          }
+
           console.log("from show nodes: ",$scope.coordinates)
             var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
                 geodesic: true,
-                strokeColor: '#ff0000',
+                strokeColor: route_colors[color_index],
                 strokeOpacity: 1.0,
                 strokeWeight: 4
             });
@@ -311,13 +323,15 @@ app.controller('PlanController', function($scope,$http) {
   }
 });
 
-
 //saved routes
 app.controller('HistroyController',function($scope,$http){
   $scope.allRoutes;
   $scope.nodes;
   getAllRoute();
 
+  $scope.refreshMap =function(){
+    $scope.$emit("flightapp:resetMap");
+  }
   function getAllRoute(){
   $http({
           method: "GET",
@@ -336,7 +350,7 @@ app.controller('HistroyController',function($scope,$http){
             url: "http://localhost:3000/routes/"+id,
          }).success(function(data) {
              $scope.nodes = data.nodes;
-             $scope.$emit("flightapp:shownodes",$scope.nodes);
+             $scope.$emit("flightapp:shownodes",$scope.nodes,(Math.floor(Math.random() * 6)));
         }).error(function() {
             alert("Error finding routes!");
         });
