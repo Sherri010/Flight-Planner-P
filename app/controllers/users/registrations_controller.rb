@@ -1,5 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  # respond_to :json
+  respond_to :json
   # skip_before_filter :verify_authenticity_token, :only => :create
 # before_action :configure_sign_up_params, only: [:create]
 # before_action :configure_account_update_params, only: [:update]
@@ -37,7 +37,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def cancel
   #   super
   # end
-
+  def sign_up_params
+    devise_parameter_sanitizer.sanitize(:sign_up)
+  end
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.
@@ -54,6 +56,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def after_sign_up_path_for(resource)
     "/dashboard"
   end
+
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
