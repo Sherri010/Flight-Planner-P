@@ -36,6 +36,9 @@ a.signup{
   padding:100px;
 
 }
+a.brand-logo {
+  margin:5px 10px;
+}
 .options {
  margin: 0 auto;
  width:500px;
