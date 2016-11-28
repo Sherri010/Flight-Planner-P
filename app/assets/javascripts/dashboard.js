@@ -117,8 +117,10 @@ app.controller('MapController', function($scope,$http) {
             $scope.coordinates.push(new_marker);
             addMarker(event.latLng, map);
 
-            $scope.$broadcast("flightapp:newmarker",new_marker);
+
             calcDistance("add_new_marker");
+            $scope.$broadcast("flightapp:newmarker",new_marker);
+
 
            var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
@@ -368,7 +370,6 @@ app.controller('HistroyController',function($scope,$http){
 
   //delete route
   $scope.removeRoute=function(id){
-
     $http({
             method: "DELETE",
             url: "http://localhost:3000/routes/"+id
