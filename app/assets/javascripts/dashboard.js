@@ -139,6 +139,16 @@ app.controller('MapController', function($scope,$http) {
 
         $scope.$on("flightapp:shownodes",function(event,data) {
           $scope.coordinates = data;
+          var temp_label_index = 0;
+          var marker;
+          for(var i =0; i<$scope.coordinates.length;i++){
+            marker = new google.maps.Marker({
+                  position: $scope.coordinates[i],
+                  map: map,
+                  label: $scope.labels[temp_label_index++]
+                });
+           marker.setMap(map);
+          }
           console.log("from show nodes: ",$scope.coordinates)
             var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
@@ -310,7 +320,6 @@ app.controller('PlanController', function($scope,$http) {
     $scope.$emit("flightapp:updatemap_repaint");
   }
 });
-
 
 //saved routes
 app.controller('HistroyController',function($scope,$http){
