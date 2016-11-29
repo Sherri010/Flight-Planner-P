@@ -177,7 +177,9 @@ var twoNodeDistance = function(){
           twoNodeDistance();
         }
 ```
-#### Time consuming bugs!
+
+### Time consuming bugs!!!!!!
+
 # next steps:
  - have user upload files
  - set fixed locations for users
