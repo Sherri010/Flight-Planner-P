@@ -306,23 +306,6 @@ app.controller('PlanController', function($scope,$http) {
   });
 
 
-   $scope.getGpsData = function(){
-     var user_data;
-     var minified_data=[];
-     $http({
-             method: "GET",
-             url: "http://localhost:3000/routes/GPS"
-         }).success(function(data) {
-            user_data = data;
-            for(var i=0;i<user_data.length ; i=i+30){
-              minified_data.push(user_data[i]);
-            }
-            $scope.$emit("flightapp:GPS_data",minified_data);
-         }).error(function() {
-             alert("Error getting gps data");
-      });
-
-   }
    $scope.refreshMap =function(){
      $scope.$emit("flightapp:resetMap");
    }
@@ -401,6 +384,26 @@ app.controller('HistroyController',function($scope,$http){
       });
 
  }
+
+ //get GPS data
+
+    $scope.getGpsData = function(){
+      var user_data;
+      var minified_data=[];
+      $http({
+              method: "GET",
+              url: "http://localhost:3000/routes/GPS"
+          }).success(function(data) {
+             user_data = data;
+             for(var i=0;i<user_data.length ; i=i+30){
+               minified_data.push(user_data[i]);
+             }
+             $scope.$emit("flightapp:GPS_data",minified_data);
+          }).error(function() {
+              alert("Error getting gps data");
+       });
+
+    }
  //get routes details
   $scope.getNodes=function(id){
        $http({
