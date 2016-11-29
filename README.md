@@ -1,6 +1,6 @@
   ![](airplanner-logo-black.png)
 
-AirPlanned is a SAP for planning flights.This application is created for planning short distance flights and provide details about the route you have in mind by using Google Maps API.
+AirPlanner is a SPA for planning flights.This application is created for planning short distance flights and to provide details about the route you have in mind by using Google Maps API.
 
 I worked with UXUI designer(Revy Samia) to create UI. So far, the first sprint is completed and there are few user stories that are not fully available (mentioned below).
 
@@ -177,3 +177,8 @@ var twoNodeDistance = function(){
           twoNodeDistance();
         }
 ```
+#### Time consuming bugs!
+# next steps:
+ - have user upload files
+ - set fixed locations for users
+ - explore google earth to show traveled routes
