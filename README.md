@@ -183,4 +183,5 @@ var twoNodeDistance = function(){
 # next steps:
  - have user upload files
  - set fixed locations for users
- - explore google earth to show traveled routes
+ - explore google earth to show GPS data
+ - see other users routes if public
