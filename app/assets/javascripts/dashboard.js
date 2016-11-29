@@ -279,6 +279,18 @@ app.controller('PlanController', function($scope,$http) {
     });
   });
 
+
+   $scope.getGpsData = function(){
+     $http({
+             method: "GET",
+             url: "http://localhost:3000/routes/GPS"
+         }).success(function(data) {
+              alert("SUCCESS");
+            console.log("GPS:",data)
+         }).error(function() {
+             alert("Error getting gps data");
+         });
+   }
    $scope.refreshMap =function(){
      $scope.$emit("flightapp:resetMap");
    }

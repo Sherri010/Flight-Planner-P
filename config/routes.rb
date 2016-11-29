@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { registrations: "users/registrations", sessions: "users/sessions" }
   root :to => redirect("/users/sign_in")
   delete "/routes/:id/nodes/clear", to: "routes#destroy_all_nodes"
-
+  get    "/routes/GPS", to: "routes#process_gps_data"
   resources :routes do
     resources :nodes
   end
