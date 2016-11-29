@@ -179,6 +179,7 @@ var twoNodeDistance = function(){
 ```
 
 ### Time consuming bugs!!!!!!
+### airports
 
 # next steps:
  - have user upload files
