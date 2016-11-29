@@ -207,7 +207,7 @@ app.controller('MapController', function($scope,$http) {
 
 
         //event listener for deleting marker from unsaved route
-        $scope.$on("flightapp:updatemap_remove",function(){
+      $scope.$on("flightapp:updatemap_remove",function(){
           //console.log("im in update now,removing all nodes first");
           $scope.clearMarkerAndPoly(null);
         });
@@ -218,7 +218,33 @@ app.controller('MapController', function($scope,$http) {
           $scope.distances=[0];
           $scope.totalDistance = 0;
           calcDistance("repainting_markers");
-      })
+      });
+
+      $scope.$on("flightapp:GPS_data",function(event,minified_data){
+        var temp_label_index =0;
+        for(var i=0;i<minified_data.length;i++){
+           marker = new google.maps.Marker({
+                 position: {lat:+minified_data[i][0] , lng:+minified_data[i][1]},
+                 map: map
+               });
+          marker.setMap(map);
+          addPopUp(marker);
+       }
+       var poli=[];
+       for(var i=0;i<minified_data.length;i++){
+                poli.push({lat:+minified_data[i][0] , lng:+minified_data[i][1]})
+        }
+
+         var flightPath = new google.maps.Polyline({
+             path: poli,
+             geodesic: true,
+             strokeColor: "#3366ff",
+             strokeOpacity: 1.0,
+             strokeWeight: 4
+         });
+         flightPath.setMap(map);
+    });
+
         //for adding info window to the marker
         var overlay = new google.maps.OverlayView();
         overlay.draw = function() {};
@@ -279,6 +305,24 @@ app.controller('PlanController', function($scope,$http) {
     });
   });
 
+
+   $scope.getGpsData = function(){
+     var user_data;
+     var minified_data=[];
+     $http({
+             method: "GET",
+             url: "http://localhost:3000/routes/GPS"
+         }).success(function(data) {
+            user_data = data;
+            for(var i=0;i<user_data.length ; i=i+30){
+              minified_data.push(user_data[i]);
+            }
+            $scope.$emit("flightapp:GPS_data",minified_data);
+         }).error(function() {
+             alert("Error getting gps data");
+      });
+
+   }
    $scope.refreshMap =function(){
      $scope.$emit("flightapp:resetMap");
    }

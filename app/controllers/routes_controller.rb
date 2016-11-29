@@ -39,7 +39,7 @@ class RoutesController < ApplicationController
      r = Route.find(params[:id]).destroy
     if r
       render :json => {success:'successfully removed route'}, status: 200
-      
+
     else
        render :json => {error:'faild attempt'}, status: 400
     end
@@ -54,6 +54,34 @@ class RoutesController < ApplicationController
        render :json => {error:'faild attempt'}, status: 400
     end
   end
+
+def process_gps_data
+    dataset=[];
+    f = File.open("./data.txt", "r")
+    f.each_line do |line|
+     line = line.split(';')
+     first = line[0].split(' ')[1..4]
+     first.push(line[1])
+     dataset.push(first)
+    end
+    f.close
+    coordinates = []
+
+    dataset.each do |c|
+      lat_deg = c[0]
+      lat_deg = lat_deg[1..2].to_i
+      lng_deg = c[2]
+      lng_deg = lng_deg[2..3].to_i
+      lat1 = c[1].to_f / 60 + lat_deg
+      lng1 = c[3].to_f / 60 + lng_deg
+      coordinates.push([lat1, lng1])
+    end
+
+    File.open("./cleandata_username.txt", 'w') { |file| file.write(dataset) }
+    File.open("./coordinates_username.txt", 'w') { |file| file.write(coordinates) }
+
+    render :json => coordinates, status: 200
+end
 
 private
   def route_params
