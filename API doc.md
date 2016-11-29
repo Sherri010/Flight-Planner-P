@@ -139,7 +139,7 @@ POST /routes/:id/nodes
 **Body Params **
 - lat : float
 - long; float
-- 
+
 **Response:** 
  - Status code: 200
 sample Response:
