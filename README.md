@@ -49,9 +49,9 @@ Users will able to:
  - see the comparison between the saved route and GPS data (halfway done)
  
  
-### GPS Data Sample file
+### Real Data Comparison
 
-Below is a small section of GPS data:
+Since I've been working with a client on this project, I was able to get my hands on GPS data collected during flight.Below is a small section of GPS data:
 ```
 T  N36 35.8923 E059 11.2997 Sun Nov 13 10:33:52 2016 ;3873.411965;      1e25; SM;    0.0000;    0.0000;    0.0000;       INF;         -;|0.000000
 T  N36 35.8743 E059 11.3151 Sun Nov 13 10:33:52 2016 ;3879.719732;      1e25; SM;    0.0252;    0.0252;    0.0252;       INF;         0;|0.000000
@@ -78,15 +78,20 @@ T  N36 35.3104 E059 12.6283 Sun Nov 13 10:33:52 2016 ;4387.498590;      1e25; SM
 T  N36 35.4340 E059 12.6940 Sun Nov 13 10:33:53 2016 ;4415.883943;      1e25; SM;    0.1547;    1.8597;    1.8597;     249.0;         1;|0.000000
 ```
 
+What my client has in mind is to be able to compare the route he planned using this app with the acutal route.
+
 Using a function in Ruby, the file is paresed and the coordiantes are extracted. 
 The format of the coordinates available in the data is h degree minute and what google maps work with is decimal. So they are converted and available to the as json.Conversion is done using:
 
 ![](convercoordinates.jpg)
 [source](https://en.wikipedia.org/wiki/Geographic_coordinate_conversion)
 
-Since there are too many samples in the file (about 450), the app will only pick one in every 30 sample and creates markers for the map based on the information.
+Since there are too many samples in the file (about 450), the app will only pick one in every 30 sample and creates markers for the map based on the information. Here is the visualization of the real data using AirPlanner:
 
 ![](GPS_pres.jpg)
+
+and using a GPS software:
+![](chart sample.png)
 
 #### Calculating distance between each marker:
 ![](calcdistance.jpg)
