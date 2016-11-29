@@ -25,6 +25,7 @@ Nov 18 - Nov 29
 *User model is created using devise, here the most important fielad are mentions.
 
 ### Wireframes:
+![](homepage.png)
 ![](wire.png)
 
 Map is always fixed on the right section and using the navigation bar you can switch to different parts of the app.
