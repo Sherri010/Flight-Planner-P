@@ -48,7 +48,19 @@ Users will able to:
  - upload GPS data 
  - see the comparison between the saved route and GPS data (halfway done)
  
- 
+### Front End:
+Angular is used to create the front of this application.There are 4 controllers:
+```
+- map controller
+- plan controller
+- history controller
+- weather controller
+```
+Everything related to Google maps is happening through Map Controller. I took advantage of `$scope.$on`, `$scope.$broadcast` and `$scope.$emit` in order to keep the map consistant with the information provided on the other parts of the appication.
+
+
+### Back End:
+you can find details about the available end points [here](https://github.com/Sherri010/Flight-Planner-P/blob/master/API%20doc.md)
 ### Real Data Comparison
 
 Since I've been working with a client on this project, I was able to get my hands on GPS data collected during flight.Below is a small section of GPS data:
