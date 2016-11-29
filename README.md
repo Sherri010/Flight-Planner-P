@@ -5,7 +5,7 @@ AirPlanned is a SAP for planning flights.This application is created for plannin
 I worked with UXUI designer(Revy Samia) to create UI. So far, the first sprint is completed and there are few user stories that are not fully available (mentioned below).
 
 you can find the application here:
-[](https://airplanner.herokuapp.com/users/sign_in)
+[heroku link](https://airplanner.herokuapp.com/users/sign_in)
 
 ### Technilogies:
 - HTML/CSS
