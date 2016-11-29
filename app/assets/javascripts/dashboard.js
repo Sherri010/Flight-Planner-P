@@ -224,17 +224,21 @@ app.controller('MapController', function($scope,$http) {
         var temp_label_index =0;
         for(var i=0;i<minified_data.length;i++){
            marker = new google.maps.Marker({
-                 position: {lat:+minified_data[1][0] , lng:+minified_data[1][1]},
+                 position: {lat:+minified_data[i][0] , lng:+minified_data[i][1]},
                  map: map
                });
-               console.log(marker)
           marker.setMap(map);
           addPopUp(marker);
        }
+       var poli=[];
+       for(var i=0;i<minified_data.length;i++){
+                poli.push({lat:+minified_data[i][0] , lng:+minified_data[i][1]})
+        }
+
          var flightPath = new google.maps.Polyline({
-             path: minified_data,
+             path: poli,
              geodesic: true,
-             strokeColor: "#fff",
+             strokeColor: "#3366ff",
              strokeOpacity: 1.0,
              strokeWeight: 4
          });
