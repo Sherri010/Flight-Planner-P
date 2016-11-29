@@ -79,7 +79,8 @@ T  N36 35.4340 E059 12.6940 Sun Nov 13 10:33:53 2016 ;4415.883943;      1e25; SM
 ```
 
 Using a function in Ruby, the file is paresed and the coordiantes are extracted. 
-The format of the coordinates available in the data is h degree minute and what google maps work with is decimal. So they are converted and available to the as json. Conversion is done using:
+The format of the coordinates available in the data is h degree minute and what google maps work with is decimal. So they are converted and available to the as json.Conversion is done using:
+
 ![](convercoordinates.jpg)
 
 Since there are too many samples in the file (about 450), the app will only pick one in every 30 sample and creates markers for the map based on the information.
