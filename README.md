@@ -152,7 +152,7 @@ in dashboard.js
         });
 
     $urlRouterProvider.otherwise("/map/new-plan");
-    ```
+```
 
 calculating distance:
 ```
