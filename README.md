@@ -1,6 +1,9 @@
   ![](airplanner-logo-black.png)
 
 AirPlanned is a SAP for planning flights.This application is created for planning short distance flights and provide details about the route you have in mind by using Google Maps API.
+
+I worked with UXUI designer(Revy Samia) to create UI. So far, the first sprint is completed and there are few user stories that are not fully available (mentioned below).
+
 you can find the application here:
 [](https://airplanner.herokuapp.com/users/sign_in)
 
@@ -13,6 +16,8 @@ you can find the application here:
 - PaperClip
 - PostgreSQL
 
+### project duration:
+Nov 18 - Nov 29
 
 ### Data Models
 ![](schema.png)
@@ -71,4 +76,7 @@ T  N36 35.2525 E059 12.5704 Sun Nov 13 10:33:52 2016 ;4352.805471;      1e25; SM
 T  N36 35.3104 E059 12.6283 Sun Nov 13 10:33:52 2016 ;4387.498590;      1e25; SM;    0.0856;    1.7050;    1.7050;       INF;         0;|0.000000
 T  N36 35.4340 E059 12.6940 Sun Nov 13 10:33:53 2016 ;4415.883943;      1e25; SM;    0.1547;    1.8597;    1.8597;     249.0;         1;|0.000000
 ```
+
+Using a function in Ruby, the file is paresed and the coordiantes are extracted. The format of the coordinates avaibale in the data is h d m and what google maps work with is decimal. So they are converted and available to the as json. Since there are too many samples in the file (about 450), the app will only pick one in every 30 sample and creates markers for the map based on the information.
+
 ![](GPS_pres.jpg)
