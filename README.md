@@ -82,6 +82,7 @@ Using a function in Ruby, the file is paresed and the coordiantes are extracted.
 The format of the coordinates available in the data is h degree minute and what google maps work with is decimal. So they are converted and available to the as json.Conversion is done using:
 
 ![](convercoordinates.jpg)
+[source](https://en.wikipedia.org/wiki/Geographic_coordinate_conversion)
 
 Since there are too many samples in the file (about 450), the app will only pick one in every 30 sample and creates markers for the map based on the information.
 
@@ -89,3 +90,4 @@ Since there are too many samples in the file (about 450), the app will only pick
 
 #### Calculating distance between each marker:
 ![](calcdistance.jpg)
+[source](http://andrew.hedges.name/experiments/haversine/)
