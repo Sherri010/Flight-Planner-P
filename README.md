@@ -111,11 +111,12 @@ and using a GPS software:
 
 #### highlights:
 Renderin view with different controllers:
+in map.html
 ```
 <div ui-view id="actions"></div>
 <div id="map"></div>
 ```
-
+in dashboard.js
 ```
   $stateProvider
         .state("map", {
