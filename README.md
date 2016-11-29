@@ -108,3 +108,71 @@ and using a GPS software:
 #### Calculating distance between each marker:
 ![](calcdistance.jpg)
 [source](http://andrew.hedges.name/experiments/haversine/)
+
+#### highlights:
+Renderin view with different controllers:
+```
+<div ui-view id="actions"></div>
+<div id="map"></div>
+```
+
+```
+  $stateProvider
+        .state("map", {
+            url: "/map",
+            abstract: true,
+            templateUrl: "pages/map.html",
+            controller: "MapController"
+        })
+        .state("map.newplan", {
+            url: "/new-plan",
+            templateUrl: "pages/plan.html",
+            controller: "PlanController"
+        })
+        .state("map.weather", {
+            url: "/weather",
+            templateUrl: "pages/weather.html",
+            controller: "WeatherController"
+        })
+        .state("map.gps", {
+            url: "/gps",
+            templateUrl: "pages/gps.html",
+            controller: "GpsController"
+        })
+        .state("map.user", {
+            url: "/user",
+            templateUrl: "pages/user.html",
+            controller: "UserController"
+        })
+        .state("map.savedplan",{
+            url: "/saved-plans",
+            templateUrl: "pages/saved.html",
+            controller: "HistroyController"
+        });
+
+    $urlRouterProvider.otherwise("/map/new-plan");
+    ```
+
+calculating distance:
+```
+var twoNodeDistance = function(){
+        //calc distance between two nodes
+       }
+   if(source == "add_new_marker"){
+        coor.push($scope.coordinates[$scope.coordinates.length-2].lat);
+        coor.push($scope.coordinates[$scope.coordinates.length-1].lat);
+        coor.push($scope.coordinates[$scope.coordinates.length-2].lng);
+        coor.push($scope.coordinates[$scope.coordinates.length-1].lng);
+        twoNodeDistance();
+      }
+
+      if(source == "repainting_markers"){
+        for(var i=1;i<$scope.coordinates.length;i++){
+          coor =[];
+          coor.push($scope.coordinates[i-1].lat);
+          coor.push($scope.coordinates[i].lat);
+          coor.push($scope.coordinates[i-1].lng);
+          coor.push($scope.coordinates[i].lng);
+          twoNodeDistance();
+        }
+```
