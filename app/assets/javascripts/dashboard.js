@@ -21,6 +21,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "pages/weather.html",
             controller: "WeatherController"
         })
+        .state("map.gps", {
+            url: "/gps",
+            templateUrl: "pages/gps.html",
+            controller: "GpsController"
+        })
         .state("map.user", {
             url: "/user",
             templateUrl: "pages/user.html",
@@ -451,7 +456,6 @@ app.controller('WeatherController', function($scope,$http) {
        if($scope.coordinates.length == before_length+1)
        {   var weather_location = $scope.coordinates.pop();
            $scope.weather_marker  = $scope.marker_list.pop();
-
             $scope.weather_marker.setMap(null)
          $http({
                  method: "GET",
@@ -471,4 +475,23 @@ app.controller('WeatherController', function($scope,$http) {
        }
     }
 
+});
+
+app.controller('GpsController', function($scope,$http){
+  $scope.getGpsData = function(){
+    var user_data;
+    var minified_data=[];
+    $http({
+            method: "GET",
+            url: "http://localhost:3000/routes/GPS"
+        }).success(function(data) {
+           user_data = data;
+           for(var i=0;i<user_data.length ; i=i+30){
+             minified_data.push(user_data[i]);
+           }
+           $scope.$emit("flightapp:GPS_data",minified_data);
+        }).error(function() {
+            alert("Error getting gps data");
+     });
+   }
 });

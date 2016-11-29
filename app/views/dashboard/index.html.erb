@@ -8,6 +8,7 @@
             <li class="pad">Hi <%= current_user.name %>!</li>
             <li><a ui-sref="map.newplan">+ New Route</a></li>
             <li><a ui-sref="map.savedplan">Saved Routes</a></li>
+            <li><a ui-sref="map.gps">GPS</a></li>
             <li><a ui-sref="map.weather">Weather</a></li>
             <li><a href="#modal3">Profile</a></li>
             <li><%= link_to "Log out", destroy_user_session_path,:method=>"delete"%></li>
