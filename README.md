@@ -49,7 +49,7 @@ Users will able to:
  - see the comparison between the saved route and GPS data (halfway done)
  
 ### Front End:
-Angular is used to create the front of this application.There are 4 controllers:
+Angular is used to create the front end of this application.There are 4 controllers:
 ```
 - map controller
 - plan controller
