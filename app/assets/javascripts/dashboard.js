@@ -172,7 +172,7 @@ app.controller('MapController', function($scope,$http) {
              });
            $scope.marker_list.push(new_marker);
           calcDistance("add_new_marker");
-          $scope.$broadcast("flightapp:newmarker",new_marker);
+
 
 
          var flightPath = new google.maps.Polyline({
@@ -184,7 +184,7 @@ app.controller('MapController', function($scope,$http) {
           });
           flightPath.setMap(map);
           flightPath_list.push(flightPath);
-        })
+        });
 
         //delete all nodes from the map
         $scope.clearMarkerAndPoly=function(map,source) {
