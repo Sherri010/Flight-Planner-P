@@ -141,3 +141,11 @@ a.brand-logo {
   padding:5px;
   text-decoration: underline;
 }
+.location-fields{
+  width:30%;
+}
+.speed_box{
+  padding:2%;
+  margin:0 auto;
+  border:1px solid grey;
+}

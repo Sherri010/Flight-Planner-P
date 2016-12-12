@@ -55,6 +55,15 @@ class RoutesController < ApplicationController
     end
   end
 
+
+  def get_file
+    p "hiting right function"
+    content = File.read(params[:gps_file].tempfile)
+    p content
+    # doc = YAML.load(content)
+    render :json => {status:"ok"}, status: 200
+  end
+
 def process_gps_data
     dataset=[];
     f = File.open("./data.txt", "r")

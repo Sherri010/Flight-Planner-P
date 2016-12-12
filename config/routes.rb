@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root :to => redirect("/users/sign_in")
   delete "/routes/:id/nodes/clear", to: "routes#destroy_all_nodes"
   get    "/routes/GPS", to: "routes#process_gps_data"
+  post   "/routes/saveGPS", to:"reoutes#get_file"
   resources :routes do
     resources :nodes
   end

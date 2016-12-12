@@ -1,8 +1,5 @@
 var app = angular.module("flightApp", ["ui.router"]);
 
-
-
-
 app.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state("map", {
@@ -113,7 +110,7 @@ app.controller('MapController', function($scope,$http) {
         google.maps.event.addListener(map, 'click', function(event) {
             var new_marker ={lat:event.latLng.lat(),lng:event.latLng.lng() };
             //remove weather marker if any
-            console.log("from map controller", $scope.weather_marker);
+
             if( $scope.weather_marker )
               {
                 $scope.weather_marker.setMap(null);
@@ -122,12 +119,10 @@ app.controller('MapController', function($scope,$http) {
             $scope.coordinates.push(new_marker);
             addMarker(event.latLng, map);
 
-
             calcDistance("add_new_marker");
             $scope.$broadcast("flightapp:newmarker",new_marker);
 
-
-           var flightPath = new google.maps.Polyline({
+            var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
                 geodesic: true,
                 strokeColor: '#ff0000',
@@ -158,8 +153,6 @@ app.controller('MapController', function($scope,$http) {
            marker.setMap(map);
            addPopUp(marker);
           }
-
-          console.log("from show nodes: ",$scope.coordinates)
             var flightPath = new google.maps.Polyline({
                 path: $scope.coordinates,
                 geodesic: true,
@@ -169,6 +162,29 @@ app.controller('MapController', function($scope,$http) {
             });
             flightPath.setMap(map);
         });
+
+        $scope.$on("flightapp:formLatLng",function(event,lat,lng){
+
+            $scope.coordinates.push({lat:lat,lng:lng});
+             new_marker = new google.maps.Marker({
+               position: {lat:lat,lng:lng},
+               map: map
+             });
+           $scope.marker_list.push(new_marker);
+          calcDistance("add_new_marker");
+          $scope.$broadcast("flightapp:newmarker",new_marker);
+
+
+         var flightPath = new google.maps.Polyline({
+              path: $scope.coordinates,
+              geodesic: true,
+              strokeColor: '#ff0000',
+              strokeOpacity: 1.0,
+              strokeWeight: 4
+          });
+          flightPath.setMap(map);
+          flightPath_list.push(flightPath);
+        })
 
         //delete all nodes from the map
         $scope.clearMarkerAndPoly=function(map,source) {
@@ -192,6 +208,9 @@ app.controller('MapController', function($scope,$http) {
              $scope.save_flag = false;
              $scope.distances=[];
              $scope.totalDistance=0;
+             $scope.travel_time=0;
+             $scope.in_lat=0;
+             $scope.in_lng=0;
            }
         }
         $scope.setMapForAll=function(map){
@@ -218,7 +237,6 @@ app.controller('MapController', function($scope,$http) {
         });
 
       $scope.$on("flightapp:updatemap_repaint",function(){
-          console.log("im in update now,repainting",$scope.coordinates);
           $scope.setMapForAll(map);
           $scope.distances=[0];
           $scope.totalDistance = 0;
@@ -281,8 +299,6 @@ app.controller('MapController', function($scope,$http) {
             infowindow.open(map, marker);
           });
         }
-
-
     }
 
     initMap();
@@ -300,6 +316,8 @@ app.controller('PlanController', function($scope,$http) {
   $scope.route ={};
   $scope.speed;
   $scope.travelTime;
+  $scope.in_lat;
+  $scope.in_lng;
 
  // listening for any changes on the marker list and updating the view
   $scope.$on("flightapp:newmarker", function(event,data) {
@@ -350,6 +368,15 @@ app.controller('PlanController', function($scope,$http) {
     }
  }
 
+
+   $scope.getUserData = function(){
+      if($scope.in_lng && $scope.in_lat){
+        $scope.$emit("flightapp:formLatLng",$scope.in_lat,$scope.in_lng);
+        $scope.save_flag=true;
+      }
+     }
+
+
  $scope.calcSpeed = function(){
     var mph = $scope.speed * 1.152;
     $scope.travelTime = ($scope.totalDistance / mph).toFixed(3);
@@ -392,23 +419,24 @@ app.controller('HistroyController',function($scope,$http){
 
  //get GPS data
 
-    $scope.getGpsData = function(){
-      var user_data;
-      var minified_data=[];
-      $http({
-              method: "GET",
-              url: "http://localhost:3000/routes/GPS"
-          }).success(function(data) {
-             user_data = data;
-             for(var i=0;i<user_data.length ; i=i+30){
-               minified_data.push(user_data[i]);
-             }
-             $scope.$emit("flightapp:GPS_data",minified_data);
-          }).error(function() {
-              alert("Error getting gps data");
-       });
+    // $scope.getGpsData = function(){
+    //   var user_data;
+    //   var minified_data=[];
+    //   $http({
+    //           method: "GET",
+    //           url: "http://localhost:3000/routes/GPS"
+    //       }).success(function(data) {
+    //          user_data = data;
+    //          for(var i=0;i<user_data.length ; i=i+30){
+    //            minified_data.push(user_data[i]);
+    //          }
+    //          $scope.$emit("flightapp:GPS_data",minified_data);
+    //       }).error(function() {
+    //           alert("Error getting gps data");
+    //    });
+    //
+    // }
 
-    }
  //get routes details
   $scope.getNodes=function(id){
        $http({

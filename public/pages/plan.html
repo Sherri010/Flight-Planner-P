@@ -18,9 +18,13 @@
      </tr>
     </tbody>
   </table>
+  <div class="location-fields">
+    <input type="number" name="lat" placeholder="Enter lat" ng-model="in_lat">
+    <input type="number" name="lng" placeholder="Enter lng" ng-model="in_lng">
+    <a class="waves-effect waves-light btn  blue-grey darken-3 plan_time"  ng-click="getUserData();">Add Location</a>
+  </div>
 </div>
-<div ng-show="save_flag" class="container">
-    <hr>
+<div ng-show="save_flag" class="container speed_box">
     <span> Total Distance: </span> <span>{{totalDistance}} m</span>
   <div>
     <span> Speed:</soan>
